@@ -1,0 +1,9 @@
+
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: klok
+Upstream-Contact: Casper Meijn <casper@meijn.net>
+Source: https://gitlab.com/caspermeijn/klok
+
+Files: watchface/Cargo.lock
+Copyright: (C) 2020 Casper Meijn <casper@meijn.net>
+License: CC0-1.0
