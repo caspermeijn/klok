@@ -48,17 +48,17 @@ impl<TP, BP> Watchface<TP, BP>
             .center(display)
             .draw(display)?;
 
-        let battery_icon = BatteryIcon {
-            top_left: Point::new(200,20),
-            bottom_right: Point::new(210, 40),
+        BatteryIcon {
+            top_left: Point::new(0,0),
+            bottom_right: Point::new(10, 20),
             bg_color: Rgb565::BLACK,
             fg_color: Rgb565::WHITE,
             empty_color: Rgb565::RED,
             full_color: Rgb565::GREEN,
             state_of_charge: self.battery_provider.get_state_of_charge()
-        };
-
-        battery_icon.draw(display)?;
+        }
+            .translate_to_top_right(display)
+            .draw(display)?;
 
         Ok(())
     }

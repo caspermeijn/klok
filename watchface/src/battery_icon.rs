@@ -12,6 +12,23 @@ pub struct BatteryIcon<C: PixelColor> {
     pub state_of_charge: f32,
 }
 
+impl<C: PixelColor> Transform for BatteryIcon<C> {
+    fn translate(&self, by: Point) -> Self {
+        Self {
+            top_left: self.top_left + by,
+            bottom_right: self.bottom_right + by,
+            ..*self
+        }
+    }
+
+    fn translate_mut(&mut self, by: Point) -> &mut Self {
+        self.top_left += by;
+        self.bottom_right += by;
+
+        self
+    }
+}
+
 impl<C: PixelColor> Dimensions for BatteryIcon<C> {
     fn top_left(&self) -> Point {
         self.top_left
