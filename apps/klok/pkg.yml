@@ -1,0 +1,16 @@
+# Copyright (C) 2020 Casper Meijn <casper@meijn.net>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+pkg.name: apps/klok
+pkg.type: app
+pkg.description: A smartwatch firmware with a focus on showing time.
+pkg.author: "Casper Meijn <casper@meijn.net>"
+pkg.homepage: "https://gitlab.com/caspermeijn/klok"
+pkg.keywords:
+
+pkg.deps:
+    - "@apache-mynewt-core/kernel/os"
+    - "@apache-mynewt-core/hw/hal"
+    - "@apache-mynewt-core/sys/console/stub"
+    - "@apache-mynewt-core/sys/log/stub"

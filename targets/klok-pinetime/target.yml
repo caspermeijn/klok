@@ -1,0 +1,3 @@
+target.app: apps/klok
+target.bsp: "@apache-mynewt-core/hw/bsp/pinetime"
+target.build_profile: debug
