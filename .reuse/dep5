@@ -7,3 +7,7 @@ Source: https://gitlab.com/caspermeijn/klok
 Files: watchface/Cargo.lock
 Copyright: (C) 2020 Casper Meijn <casper@meijn.net>
 License: CC0-1.0
+
+Files: apps/klok/Cargo.lock
+Copyright: (C) 2020 Casper Meijn <casper@meijn.net>
+License: CC0-1.0
