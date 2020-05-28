@@ -5,5 +5,5 @@ set -eu
 # SPDX-License-Identifier: CC0-1.0
 
 TARGET="thumbv7m-none-eabi"
-cargo build --target="${TARGET}" --target-dir="${MYNEWT_PKG_BIN_DIR}"
+cargo +nightly build --target="${TARGET}" --target-dir="${MYNEWT_PKG_BIN_DIR}"
 cp "${MYNEWT_PKG_BIN_DIR}"/${TARGET}/debug/*.a "${MYNEWT_PKG_BIN_ARCHIVE}"

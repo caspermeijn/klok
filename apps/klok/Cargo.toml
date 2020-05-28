@@ -10,6 +10,7 @@ edition = "2018"
 
 [dependencies]
 panic-halt = "0.2.0"
+mynewt-core-hw-hal = { version = "0.1.0", path = "../../../mynewt-rust/mynewt-core-hw-hal" }
 
 [lib]
 crate-type = ["staticlib"]

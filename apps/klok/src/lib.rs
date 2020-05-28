@@ -17,12 +17,12 @@
 
 #![no_std]
 
+extern crate mynewt_core_hw_hal as hal;
+
 extern "C" {
     fn sysinit_start();
     fn sysinit_app();
     fn sysinit_end();
-    fn hal_gpio_init_out(pin: i32, val: i32) -> i32;
-    fn hal_gpio_toggle(pin: i32);
     fn os_time_delay(osticks: u32);
 }
 
@@ -40,13 +40,15 @@ pub extern "C" fn main() {
     unsafe { sysinit_app(); }
     unsafe { sysinit_end(); }
 
-    unsafe { hal_gpio_init_out(LED_BLINK_PIN, 1); }
+    let mut blink_led = unsafe { hal::gpio::Gpio::new(LED_BLINK_PIN) }.init_as_output().unwrap();
+
+    blink_led.write(hal::gpio::PinState::High);
 
     loop {
         /* Wait one second */
         unsafe { os_time_delay(OS_TICKS_PER_SEC); }
 
         /* Toggle the LED */
-        unsafe { hal_gpio_toggle(LED_BLINK_PIN); }
+        blink_led.toggle();
     }
 }
