@@ -40,15 +40,15 @@ pub extern "C" fn main() {
     unsafe { sysinit_app(); }
     unsafe { sysinit_end(); }
 
-    let mut blink_led = unsafe { hal::gpio::Gpio::new(LED_BLINK_PIN) }.init_as_output().unwrap();
+    let mut bsp = mynewt_pinetime_bsp::Bsp::new();
 
-    blink_led.write(hal::gpio::PinState::High);
+    bsp.backlight_high.write(hal::gpio::PinState::High);
 
     loop {
         /* Wait one second */
         unsafe { os_time_delay(OS_TICKS_PER_SEC); }
 
         /* Toggle the LED */
-        blink_led.toggle();
+        bsp.backlight_high.toggle();
     }
 }
