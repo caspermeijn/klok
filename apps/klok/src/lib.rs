@@ -17,6 +17,10 @@
 
 #![no_std]
 
+extern crate panic_semihosting;
+extern crate cortex_m_semihosting;
+use cortex_m_semihosting::hprintln;
+
 extern crate mynewt_core_hw_hal as hal;
 
 extern "C" {
@@ -25,8 +29,6 @@ extern "C" {
     fn sysinit_end();
     fn os_time_delay(osticks: u32);
 }
-
-extern crate panic_halt;
 
 const OS_TICKS_PER_SEC: u32 = 128;
 
@@ -39,6 +41,8 @@ pub extern "C" fn main() {
     unsafe { sysinit_start(); }
     unsafe { sysinit_app(); }
     unsafe { sysinit_end(); }
+
+    hprintln!("App started");
 
     let mut bsp = mynewt_pinetime_bsp::Bsp::new();
 
