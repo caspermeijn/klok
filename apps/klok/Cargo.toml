@@ -13,6 +13,7 @@ panic-semihosting = "0.5.3"
 mynewt-pinetime-bsp = { version = "0.1.0", path = "../../../mynewt-rust/mynewt-pinetime-bsp" }
 mynewt-core-hw-hal = { version = "0.1.0", path = "../../../mynewt-rust/mynewt-core-hw-hal" }
 cortex-m-semihosting = "0.3.5"
+embedded-hal = { version = "0.2.3", features = ["unproven"] }
 
 [lib]
 crate-type = ["staticlib"]

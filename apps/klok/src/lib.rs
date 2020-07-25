@@ -23,11 +23,12 @@ use cortex_m_semihosting::hprintln;
 
 extern crate mynewt_core_hw_hal as hal;
 
+use embedded_hal::blocking::delay::DelayMs;
+
 extern "C" {
     fn sysinit_start();
     fn sysinit_app();
     fn sysinit_end();
-    fn os_time_delay(osticks: u32);
 }
 
 const OS_TICKS_PER_SEC: u32 = 128;
@@ -50,7 +51,7 @@ pub extern "C" fn main() {
 
     loop {
         /* Wait one second */
-        unsafe { os_time_delay(OS_TICKS_PER_SEC); }
+        bsp.delay.delay_ms(1000);
 
         /* Toggle the LED */
         bsp.backlight_high.toggle();
