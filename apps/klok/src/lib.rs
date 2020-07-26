@@ -18,12 +18,22 @@
 #![no_std]
 
 extern crate panic_semihosting;
-extern crate cortex_m_semihosting;
-use cortex_m_semihosting::hprintln;
 
 extern crate mynewt_core_hw_hal as hal;
 
+use display_interface_spi::SPIInterface;
+use st7789::{ST7789, Orientation};
+use embedded_graphics::{
+    pixelcolor::Rgb565,
+    prelude::*,
+};
 use embedded_hal::blocking::delay::DelayMs;
+
+use watchface::Watchface;
+use mynewt_core_kernel_os::time::TimeOfDay;
+use heapless::String;
+use heapless::consts::*;
+use core::fmt::Write;
 
 extern "C" {
     fn sysinit_start();
@@ -31,10 +41,26 @@ extern "C" {
     fn sysinit_end();
 }
 
-const OS_TICKS_PER_SEC: u32 = 128;
+struct TimeOfDayProvider {
+}
 
-const LCD_BACKLIGHT_HIGH_PIN: i32 = 23;
-const LED_BLINK_PIN: i32 = LCD_BACKLIGHT_HIGH_PIN;
+impl watchface::TimeProvider for TimeOfDayProvider {
+    fn get_time(&self) -> String<U8> {
+        let time = TimeOfDay::getTimeOfDay().unwrap();
+
+        let mut text = String::new();
+        write!(&mut text, "{:02}:{:02}:{:02}", time.hours(), time.minutes(), time.seconds()).unwrap();
+        text
+    }
+}
+
+struct StubBatteryProvider {}
+
+impl watchface::BatteryProvider for StubBatteryProvider {
+    fn get_state_of_charge(&self) -> f32 {
+        0.5
+    }
+}
 
 #[no_mangle]
 pub extern "C" fn main() {
@@ -43,17 +69,32 @@ pub extern "C" fn main() {
     unsafe { sysinit_app(); }
     unsafe { sysinit_end(); }
 
-    hprintln!("App started");
-
     let mut bsp = mynewt_pinetime_bsp::Bsp::new();
 
-    bsp.backlight_high.write(hal::gpio::PinState::High);
+    bsp.backlight_high.write(hal::gpio::PinState::Low);
+
+    // display interface abstraction from SPI and DC
+    let di = SPIInterface::new(bsp.spi, bsp.display_data_command, bsp.display_chip_select);
+
+    // create driver
+    let mut display = ST7789::new(di, bsp.display_reset, 240, 240);
+
+    // initialize
+    display.init(&mut bsp.delay).unwrap();
+    // set default orientation
+    display.set_orientation(Orientation::Portrait).unwrap();
+
+    // draw two circles on black background
+    display.clear(Rgb565::BLACK).unwrap();
+
+    let now_provider = TimeOfDayProvider {};
+    let battery_provider = StubBatteryProvider {};
+
+    let watchface = Watchface::new(now_provider, battery_provider);
 
     loop {
-        /* Wait one second */
-        bsp.delay.delay_ms(1000);
+        watchface.draw(&mut display).unwrap();
 
-        /* Toggle the LED */
-        bsp.backlight_high.toggle();
+        bsp.delay.delay_ms(100);
     }
 }

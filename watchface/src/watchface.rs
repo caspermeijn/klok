@@ -29,7 +29,7 @@ pub trait BatteryProvider {
 }
 
 pub trait TimeProvider {
-    fn get_time(&self) -> String;
+    fn get_time(&self) -> heapless::String<heapless::consts::U8>;
 }
 
 pub struct Watchface<TP, BP>
@@ -52,7 +52,7 @@ impl<TP, BP> Watchface<TP, BP>
         }
     }
 
-    pub fn draw<D: DrawTarget<Rgb565>>(&self, display: &mut D) -> std::result::Result<(), D::Error> {
+    pub fn draw<D: DrawTarget<Rgb565>>(&self, display: &mut D) -> core::result::Result<(), D::Error> {
 
         let time_text_style = TextStyleBuilder::new(Font24x32)
             .text_color(Rgb565::BLUE)

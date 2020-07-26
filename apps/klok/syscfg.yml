@@ -1,0 +1,4 @@
+syscfg.vals:
+  # SPI port 0 connected to ST7789 display
+  SPI_0_MASTER: 1
+  OS_MAIN_STACK_SIZE: 8000
