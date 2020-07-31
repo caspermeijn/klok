@@ -34,6 +34,7 @@ use mynewt_core_kernel_os::time::{TimeOfDay, Delay};
 use heapless::String;
 use heapless::consts::*;
 use core::fmt::Write;
+use mynewt_core_kernel_os::task::Task;
 
 extern "C" {
     fn sysinit_start();
@@ -62,20 +63,7 @@ impl watchface::BatteryProvider for StubBatteryProvider {
     }
 }
 
-static mut BSP: mynewt_pinetime_bsp::Bsp = mynewt_pinetime_bsp::Bsp::new();
-
-#[no_mangle]
-pub extern "C" fn main() {
-    /* Initialize all packages. */
-    unsafe { sysinit_start(); }
-    unsafe { sysinit_app(); }
-    unsafe { sysinit_end(); }
-
-    unsafe { BSP.init(); }
-
-    let mut backlight_high = unsafe { BSP.backlight_high.take().unwrap() };
-    backlight_high.write(hal::gpio::PinState::Low);
-
+fn draw_task() {
     let mut spi = unsafe { BSP.spi.take().unwrap() };
     let mut display_data_command = unsafe { BSP.display_data_command.take().unwrap() };
     let mut display_chip_select = unsafe { BSP.display_chip_select.take().unwrap() };
@@ -106,5 +94,30 @@ pub extern "C" fn main() {
         watchface.draw(&mut display).unwrap();
 
         delay.delay_ms(100);
+    }
+}
+
+static mut BSP: mynewt_pinetime_bsp::Bsp = mynewt_pinetime_bsp::Bsp::new();
+static mut TASK: Task = Task::new();
+
+#[no_mangle]
+pub extern "C" fn main() {
+    /* Initialize all packages. */
+    unsafe { sysinit_start(); }
+    unsafe { sysinit_app(); }
+    unsafe { sysinit_end(); }
+
+    unsafe { BSP.init(); }
+    let mut delay = Delay {};
+
+    let mut backlight_high = unsafe { BSP.backlight_high.take().unwrap() };
+    backlight_high.write(hal::gpio::PinState::Low);
+
+    unsafe { TASK.init("draw", draw_task, 200); }
+
+    loop {
+        backlight_high.toggle();
+
+        delay.delay_ms(1000);
     }
 }
