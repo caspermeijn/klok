@@ -30,7 +30,7 @@ use embedded_graphics::{
 use embedded_hal::blocking::delay::DelayMs;
 
 use watchface::Watchface;
-use mynewt_core_kernel_os::time::TimeOfDay;
+use mynewt_core_kernel_os::time::{TimeOfDay, Delay};
 use heapless::String;
 use heapless::consts::*;
 use core::fmt::Write;
@@ -62,6 +62,8 @@ impl watchface::BatteryProvider for StubBatteryProvider {
     }
 }
 
+static mut BSP: mynewt_pinetime_bsp::Bsp = mynewt_pinetime_bsp::Bsp::new();
+
 #[no_mangle]
 pub extern "C" fn main() {
     /* Initialize all packages. */
@@ -69,18 +71,26 @@ pub extern "C" fn main() {
     unsafe { sysinit_app(); }
     unsafe { sysinit_end(); }
 
-    let mut bsp = mynewt_pinetime_bsp::Bsp::new();
+    unsafe { BSP.init(); }
 
-    bsp.backlight_high.write(hal::gpio::PinState::Low);
+    let mut backlight_high = unsafe { BSP.backlight_high.take().unwrap() };
+    backlight_high.write(hal::gpio::PinState::Low);
+
+    let mut spi = unsafe { BSP.spi.take().unwrap() };
+    let mut display_data_command = unsafe { BSP.display_data_command.take().unwrap() };
+    let mut display_chip_select = unsafe { BSP.display_chip_select.take().unwrap() };
+    let mut display_reset = unsafe { BSP.display_reset.take().unwrap() };
 
     // display interface abstraction from SPI and DC
-    let di = SPIInterface::new(bsp.spi, bsp.display_data_command, bsp.display_chip_select);
+    let di = SPIInterface::new(spi, display_data_command, display_chip_select);
 
     // create driver
-    let mut display = ST7789::new(di, bsp.display_reset, 240, 240);
+    let mut display = ST7789::new(di, display_reset, 240, 240);
+
+    let mut delay = Delay {};
 
     // initialize
-    display.init(&mut bsp.delay).unwrap();
+    display.init(&mut delay).unwrap();
     // set default orientation
     display.set_orientation(Orientation::Portrait).unwrap();
 
@@ -95,6 +105,6 @@ pub extern "C" fn main() {
     loop {
         watchface.draw(&mut display).unwrap();
 
-        bsp.delay.delay_ms(100);
+        delay.delay_ms(100);
     }
 }
