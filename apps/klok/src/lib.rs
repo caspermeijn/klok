@@ -35,6 +35,7 @@ use heapless::String;
 use heapless::consts::*;
 use core::fmt::Write;
 use mynewt_core_kernel_os::task::Task;
+use mynewt_core_kernel_os::callout::Callout;
 
 extern "C" {
     fn sysinit_start();
@@ -99,6 +100,7 @@ fn draw_task() {
 
 static mut BSP: mynewt_pinetime_bsp::Bsp = mynewt_pinetime_bsp::Bsp::new();
 static mut TASK: Task = Task::new();
+static mut BACKLIGHT_CALLOUT:Callout = Callout::new();
 
 #[no_mangle]
 pub extern "C" fn main() {
@@ -115,9 +117,13 @@ pub extern "C" fn main() {
 
     unsafe { TASK.init("draw", draw_task, 200); }
 
-    loop {
-        backlight_high.toggle();
+    unsafe { BACKLIGHT_CALLOUT.init_default_queue(
+        move || {
+            backlight_high.toggle();
+            unsafe { BACKLIGHT_CALLOUT.reset(1000) };
+        }
+    )};
+    unsafe { BACKLIGHT_CALLOUT.reset(1000) };
 
-        delay.delay_ms(1000);
-    }
+    mynewt_core_kernel_os::queue::loop_default_queue();
 }
