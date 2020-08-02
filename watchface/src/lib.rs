@@ -1,6 +1,6 @@
 /* Copyright (C) 2020 Casper Meijn <casper@meijn.net>
  * SPDX-License-Identifier: GPL-3.0-or-later
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -21,10 +21,4 @@ mod battery_icon;
 mod drawable_utils;
 mod watchface;
 
-pub use crate::{
-    watchface::BatteryProvider,
-    watchface::TimeProvider,
-    watchface::Watchface,
-};
-
-
+pub use crate::{watchface::BatteryProvider, watchface::TimeProvider, watchface::Watchface};

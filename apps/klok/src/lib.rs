@@ -22,20 +22,17 @@ extern crate panic_semihosting;
 extern crate mynewt_core_hw_hal as hal;
 
 use display_interface_spi::SPIInterface;
-use st7789::{ST7789, Orientation};
-use embedded_graphics::{
-    pixelcolor::Rgb565,
-    prelude::*,
-};
+use embedded_graphics::{pixelcolor::Rgb565, prelude::*};
 use embedded_hal::blocking::delay::DelayMs;
+use st7789::{Orientation, ST7789};
 
-use watchface::Watchface;
-use mynewt_core_kernel_os::time::{TimeOfDay, Delay};
-use heapless::String;
-use heapless::consts::*;
 use core::fmt::Write;
-use mynewt_core_kernel_os::task::Task;
+use heapless::consts::*;
+use heapless::String;
 use mynewt_core_kernel_os::callout::Callout;
+use mynewt_core_kernel_os::task::Task;
+use mynewt_core_kernel_os::time::{Delay, TimeOfDay};
+use watchface::Watchface;
 
 extern "C" {
     fn sysinit_start();
@@ -43,15 +40,21 @@ extern "C" {
     fn sysinit_end();
 }
 
-struct TimeOfDayProvider {
-}
+struct TimeOfDayProvider {}
 
 impl watchface::TimeProvider for TimeOfDayProvider {
     fn get_time(&self) -> String<U8> {
         let time = TimeOfDay::getTimeOfDay().unwrap();
 
         let mut text = String::new();
-        write!(&mut text, "{:02}:{:02}:{:02}", time.hours(), time.minutes(), time.seconds()).unwrap();
+        write!(
+            &mut text,
+            "{:02}:{:02}:{:02}",
+            time.hours(),
+            time.minutes(),
+            time.seconds()
+        )
+        .unwrap();
         text
     }
 }
@@ -100,29 +103,35 @@ fn draw_task() {
 
 static mut BSP: mynewt_pinetime_bsp::Bsp = mynewt_pinetime_bsp::Bsp::new();
 static mut TASK: Task = Task::new();
-static mut BACKLIGHT_CALLOUT:Callout = Callout::new();
+static mut BACKLIGHT_CALLOUT: Callout = Callout::new();
 
 #[no_mangle]
 pub extern "C" fn main() {
     /* Initialize all packages. */
-    unsafe { sysinit_start(); }
-    unsafe { sysinit_app(); }
-    unsafe { sysinit_end(); }
+    unsafe {
+        sysinit_start();
+        sysinit_app();
+        sysinit_end();
+    }
 
-    unsafe { BSP.init(); }
+    unsafe {
+        BSP.init();
+    }
     let mut delay = Delay {};
 
     let mut backlight_high = unsafe { BSP.backlight_high.take().unwrap() };
     backlight_high.write(hal::gpio::PinState::Low);
 
-    unsafe { TASK.init("draw", draw_task, 200); }
+    unsafe {
+        TASK.init("draw", draw_task, 200);
+    }
 
-    unsafe { BACKLIGHT_CALLOUT.init_default_queue(
-        move || {
+    unsafe {
+        BACKLIGHT_CALLOUT.init_default_queue(move || {
             backlight_high.toggle();
             unsafe { BACKLIGHT_CALLOUT.reset(1000) };
-        }
-    )};
+        })
+    };
     unsafe { BACKLIGHT_CALLOUT.reset(1000) };
 
     mynewt_core_kernel_os::queue::loop_default_queue();

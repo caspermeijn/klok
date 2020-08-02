@@ -1,6 +1,6 @@
 /* Copyright (C) 2020 Casper Meijn <casper@meijn.net>
  * SPDX-License-Identifier: GPL-3.0-or-later
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -15,18 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-use embedded_graphics::{
-    pixelcolor::Rgb565,
-    prelude::*,
-};
+use embedded_graphics::{pixelcolor::Rgb565, prelude::*};
 
 pub trait Center<D: DrawTarget<Rgb565>> {
     fn center(&mut self, display: &D) -> Self;
 }
 
-impl<D,T> Center<D> for T
-    where D: DrawTarget<Rgb565>,
-          T: embedded_graphics::transform::Transform + embedded_graphics::geometry::Dimensions,
+impl<D, T> Center<D> for T
+where
+    D: DrawTarget<Rgb565>,
+    T: embedded_graphics::transform::Transform + embedded_graphics::geometry::Dimensions,
 {
     fn center(&mut self, display: &D) -> Self {
         let display_size = display.size();
@@ -42,9 +40,10 @@ pub trait TopRight<D: DrawTarget<Rgb565>> {
     fn translate_to_top_right(&mut self, display: &D) -> Self;
 }
 
-impl<D,T> TopRight<D> for T
-    where D: DrawTarget<Rgb565>,
-          T: embedded_graphics::transform::Transform + embedded_graphics::geometry::Dimensions,
+impl<D, T> TopRight<D> for T
+where
+    D: DrawTarget<Rgb565>,
+    T: embedded_graphics::transform::Transform + embedded_graphics::geometry::Dimensions,
 {
     fn translate_to_top_right(&mut self, display: &D) -> Self {
         let display_size = display.size();

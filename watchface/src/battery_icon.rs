@@ -1,6 +1,6 @@
 /* Copyright (C) 2020 Casper Meijn <casper@meijn.net>
  * SPDX-License-Identifier: GPL-3.0-or-later
- * 
+ *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
@@ -15,9 +15,9 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+use core::cmp::max;
 use embedded_graphics::prelude::*;
 use embedded_graphics::{egline, egrectangle, primitive_style};
-use core::cmp::max;
 
 pub struct BatteryIcon<C: PixelColor> {
     pub top_left: Point,
@@ -85,15 +85,16 @@ impl<C: PixelColor> BatteryIcon<C> {
     }
     fn draw_bg<D: DrawTarget<C>>(&self, display: &mut D) -> Result<(), D::Error> {
         let style = primitive_style!(stroke_color = self.bg_color, fill_color = self.bg_color);
-        egrectangle!(top_left = self.top_left,
+        egrectangle!(
+            top_left = self.top_left,
             bottom_right = self.bottom_right,
-            style = style)
-            .draw(display)?;
+            style = style
+        )
+        .draw(display)?;
         Ok(())
     }
 
     fn draw_border<D: DrawTarget<C>>(&self, display: &mut D) -> Result<(), D::Error> {
-
         //     6+------+5
         //      |      |
         //  8+--+7    4+--+3
@@ -107,16 +108,20 @@ impl<C: PixelColor> BatteryIcon<C> {
         let width = self.size().width as i32;
         let point1 = Point::new(self.top_left.x, self.bottom_right.y);
         let point2 = self.bottom_right;
-        let point3 = Point::new(self.bottom_right.x, self.top_left.y + height / 10 );
-        let point4 = Point::new(self.bottom_right.x - width / 5, self.top_left.y + height / 10 );
+        let point3 = Point::new(self.bottom_right.x, self.top_left.y + height / 10);
+        let point4 = Point::new(
+            self.bottom_right.x - width / 5,
+            self.top_left.y + height / 10,
+        );
         let point5 = Point::new(self.bottom_right.x - width / 5, self.top_left.y);
         let point6 = Point::new(self.top_left.x + width / 5, self.top_left.y);
         let point7 = Point::new(self.top_left.x + width / 5, self.top_left.y + height / 10);
         let point8 = Point::new(self.top_left.x, self.top_left.y + height / 10);
 
         let style = primitive_style!(
-        stroke_color = self.border_color(),
-        stroke_width = self.size().width / 10);
+            stroke_color = self.border_color(),
+            stroke_width = self.size().width / 10
+        );
         egline!(start = point1, end = point2, style = style).draw(display)?;
         egline!(start = point2, end = point3, style = style).draw(display)?;
         egline!(start = point3, end = point4, style = style).draw(display)?;
@@ -130,7 +135,6 @@ impl<C: PixelColor> BatteryIcon<C> {
     }
 
     fn draw_contents<D: DrawTarget<C>>(&self, display: &mut D) -> Result<(), D::Error> {
-
         //      +------+
         //      |rect1 |
         //   +--+------+--+
@@ -141,8 +145,9 @@ impl<C: PixelColor> BatteryIcon<C> {
         //   +------------+
 
         let style = primitive_style!(
-        stroke_color = self.contents_color(),
-        fill_color = self.contents_color());
+            stroke_color = self.contents_color(),
+            fill_color = self.contents_color()
+        );
 
         let height = self.size().height as i32;
         let width = self.size().width as i32;
@@ -159,20 +164,24 @@ impl<C: PixelColor> BatteryIcon<C> {
             let left_rect1 = self.top_left.x + 2 * width / 5;
             let right_rect1 = self.bottom_right.x - 2 * width / 5;
 
-            egrectangle!(top_left = Point::new(left_rect1, max(top_rect1, max_top)),
-            bottom_right = Point::new(right_rect1, bottom_rect1),
-            style = style)
-                .draw(display)?;
+            egrectangle!(
+                top_left = Point::new(left_rect1, max(top_rect1, max_top)),
+                bottom_right = Point::new(right_rect1, bottom_rect1),
+                style = style
+            )
+            .draw(display)?;
         }
 
         if self.state_of_charge > 0.01 {
             let left_rect2 = self.top_left.x + width / 5;
             let right_rect2 = self.bottom_right.x - width / 5;
 
-            egrectangle!(top_left = Point::new(left_rect2, max(top_rect2, max_top)),
-            bottom_right = Point::new(right_rect2, bottom_rect2),
-            style = style)
-                .draw(display)?;
+            egrectangle!(
+                top_left = Point::new(left_rect2, max(top_rect2, max_top)),
+                bottom_right = Point::new(right_rect2, bottom_rect2),
+                style = style
+            )
+            .draw(display)?;
         }
 
         Ok(())
