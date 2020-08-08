@@ -24,3 +24,12 @@ heapless = "0.5.5"
 
 [lib]
 crate-type = ["staticlib"]
+
+[profile.dev]
+codegen-units = 1
+lto = true
+
+[profile.release]
+codegen-units = 1
+debug = true
+lto = true
