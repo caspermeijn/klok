@@ -15,13 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#![feature(const_fn)]
 #![no_std]
 
 extern crate panic_semihosting;
 
 extern crate mynewt_core_hw_hal as hal;
 
-use display_interface_spi::SPIInterface;
+use display_interface_spi::SPIInterfaceNoCS;
 use embedded_graphics::{pixelcolor::Rgb565, prelude::*};
 use embedded_hal::blocking::delay::DelayMs;
 use st7789::{Orientation, ST7789};
@@ -68,13 +69,12 @@ impl watchface::BatteryProvider for StubBatteryProvider {
 }
 
 fn draw_task() {
-    let mut spi = unsafe { BSP.spi.take().unwrap() };
+    let mut display_spi = unsafe { BSP.display_spi.take().unwrap() };
     let mut display_data_command = unsafe { BSP.display_data_command.take().unwrap() };
-    let mut display_chip_select = unsafe { BSP.display_chip_select.take().unwrap() };
     let mut display_reset = unsafe { BSP.display_reset.take().unwrap() };
 
     // display interface abstraction from SPI and DC
-    let di = SPIInterface::new(spi, display_data_command, display_chip_select);
+    let di = SPIInterfaceNoCS::new(display_spi, display_data_command);
 
     // create driver
     let mut display = ST7789::new(di, display_reset, 240, 240);
