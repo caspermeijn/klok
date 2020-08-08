@@ -34,6 +34,7 @@ use mynewt_core_kernel_os::callout::Callout;
 use mynewt_core_kernel_os::task::Task;
 use mynewt_core_kernel_os::time::{Delay, TimeOfDay};
 use watchface::Watchface;
+use mynewt_nimble_host::advertiser::BleAdvertiser;
 
 extern "C" {
     fn sysinit_start();
@@ -133,6 +134,8 @@ pub extern "C" fn main() {
         })
     };
     unsafe { BACKLIGHT_CALLOUT.reset(1000) };
+
+    BleAdvertiser::start();
 
     mynewt_core_kernel_os::queue::loop_default_queue();
 }

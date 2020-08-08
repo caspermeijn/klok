@@ -306,6 +306,26 @@ dependencies = [
 ]
 
 [[package]]
+name = "mynewt-core-hw-bus"
+version = "0.1.0"
+dependencies = [
+ "cortex-m-semihosting 0.3.5 (registry+https://github.com/rust-lang/crates.io-index)",
+ "embedded-hal 0.2.4 (registry+https://github.com/rust-lang/crates.io-index)",
+ "mynewt-core-hw-bus-bindgen 0.1.0",
+ "mynewt-core-hw-hal 0.1.0",
+ "mynewt-core-kernel-os-bindgen 0.1.0",
+]
+
+[[package]]
+name = "mynewt-core-hw-bus-bindgen"
+version = "0.1.0"
+dependencies = [
+ "bindgen 0.54.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "cty 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "mynewt-bindgen-helper 0.1.0",
+]
+
+[[package]]
 name = "mynewt-core-hw-hal"
 version = "0.1.0"
 dependencies = [
@@ -341,12 +361,32 @@ dependencies = [
 ]
 
 [[package]]
+name = "mynewt-nimble-host"
+version = "0.1.0"
+dependencies = [
+ "cortex-m-semihosting 0.3.5 (registry+https://github.com/rust-lang/crates.io-index)",
+ "cty 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "embedded-hal 0.2.4 (registry+https://github.com/rust-lang/crates.io-index)",
+ "mynewt-nimble-host-bindgen 0.1.0",
+]
+
+[[package]]
+name = "mynewt-nimble-host-bindgen"
+version = "0.1.0"
+dependencies = [
+ "bindgen 0.54.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "cty 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "mynewt-bindgen-helper 0.1.0",
+]
+
+[[package]]
 name = "mynewt-pinetime-bsp"
 version = "0.1.0"
 dependencies = [
  "bindgen 0.54.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "cty 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "mynewt-bindgen-helper 0.1.0",
+ "mynewt-core-hw-bus 0.1.0",
  "mynewt-core-hw-hal 0.1.0",
  "mynewt-core-kernel-os 0.1.0",
 ]
@@ -435,6 +475,7 @@ dependencies = [
  "heapless 0.5.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "mynewt-core-hw-hal 0.1.0",
  "mynewt-core-kernel-os 0.1.0",
+ "mynewt-nimble-host 0.1.0",
  "mynewt-pinetime-bsp 0.1.0",
  "panic-semihosting 0.5.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "st7789 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",
