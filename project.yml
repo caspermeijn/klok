@@ -6,9 +6,16 @@ project.name: "klok"
 
 project.repositories:
     - apache-mynewt-core
+    - mynewt-rust
 
 repository.apache-mynewt-core:
     type: github
     vers: 0-dev
-    user: apache
+    user: caspermeijn
     repo: mynewt-core
+
+repository.mynewt-rust:
+    type: github
+    vers: 0-dev
+    user: caspermeijn
+    repo: mynewt-rust
