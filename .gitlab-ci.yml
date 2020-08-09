@@ -1,0 +1,23 @@
+# Copyright (C) 2020 Casper Meijn <casper@meijn.net>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+include:
+  template: SAST.gitlab-ci.yml
+
+flatpak:
+  image: registry.gitlab.com/caspermeijn/docker-images/pinetime-build:latest
+  script:
+    - newt build boot-pinetime
+    - newt build klok-pinetime
+    - newt create-image klok-pinetime 0.1
+  artifacts:
+    paths:
+      - bin/targets/klok-pinetime/app/apps/klok/klok.img
+
+reuse:
+  image:
+    name: fsfe/reuse:latest
+    entrypoint: [""]
+  script:
+    - reuse lint
