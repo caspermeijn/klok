@@ -5,9 +5,10 @@
 include:
   template: SAST.gitlab-ci.yml
 
-flatpak:
+build:
   image: registry.gitlab.com/caspermeijn/docker-images/pinetime-build:latest
   script:
+    - newt upgrade
     - newt build boot-pinetime
     - newt build klok-pinetime
     - newt create-image klok-pinetime 0.1
