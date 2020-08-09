@@ -12,9 +12,6 @@ pkg.keywords:
 pkg.pre_build_cmds:
     './cargo_build.sh': 1
 
-pkg.lflags:
-    - '-Wl,--allow-multiple-definition'
-
 pkg.deps:
     - "@apache-mynewt-core/kernel/os"
     - "@apache-mynewt-core/hw/hal"

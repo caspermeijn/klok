@@ -26,8 +26,9 @@ heapless = "0.5.5"
 crate-type = ["staticlib"]
 
 [profile.dev]
-codegen-units = 1
-lto = true
+#TODO: Enable LTO when upstream bug is fixed: https://github.com/rust-lang/compiler-builtins/issues/347
+#codegen-units = 1
+#lto = true
 
 [profile.release]
 codegen-units = 1
