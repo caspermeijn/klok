@@ -78,9 +78,8 @@ where
                 full_color: Rgb565::GREEN,
                 state_of_charge: battery_provider.get_state_of_charge(),
             }
-                .translate_to_top_right(display)
-                .draw(display)?;
-
+            .translate_to_top_right(display)
+            .draw(display)?;
         }
 
         Ok(())
