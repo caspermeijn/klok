@@ -149,7 +149,7 @@ pub extern "C" fn main() {
 
     if false {
         unsafe {
-            BACKLIGHT_CALLOUT.init_default_queue(move || {
+               BACKLIGHT_CALLOUT.init_default_queue(move || {
                 backlight_high.toggle();
                 unsafe { BACKLIGHT_CALLOUT.reset(1000) };
             })

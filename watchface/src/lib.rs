@@ -17,7 +17,7 @@
 
 #![no_std]
 
-mod battery_icon;
+    mod battery_icon;
 mod drawable_utils;
 mod font;
 mod watchface;
