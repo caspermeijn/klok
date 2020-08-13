@@ -91,9 +91,8 @@ fn draw_task() {
     display.clear(Rgb565::BLACK).unwrap();
 
     let now_provider = TimeOfDayProvider {};
-    let battery_provider = StubBatteryProvider {};
 
-    let watchface = Watchface::new(now_provider, battery_provider);
+    let watchface: Watchface<_, StubBatteryProvider> = Watchface::new(now_provider, None);
 
     loop {
         watchface.draw(&mut display).unwrap();
@@ -121,19 +120,22 @@ pub extern "C" fn main() {
     let mut delay = Delay {};
 
     let mut backlight_high = unsafe { BSP.backlight_high.take().unwrap() };
-    backlight_high.write(hal::gpio::PinState::Low);
+    backlight_high.write(hal::gpio::PinState::High);
 
     unsafe {
         TASK.init("draw", draw_task, 200);
     }
 
-    unsafe {
-        BACKLIGHT_CALLOUT.init_default_queue(move || {
-            backlight_high.toggle();
-            unsafe { BACKLIGHT_CALLOUT.reset(1000) };
-        })
-    };
-    unsafe { BACKLIGHT_CALLOUT.reset(1000) };
+    if false {
+        unsafe {
+            BACKLIGHT_CALLOUT.init_default_queue(move || {
+                backlight_high.toggle();
+                unsafe { BACKLIGHT_CALLOUT.reset(1000) };
+            })
+        };
+        unsafe { BACKLIGHT_CALLOUT.reset(1000) };
+
+    }
 
     BleAdvertiser::start();
 

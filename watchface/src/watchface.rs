@@ -38,7 +38,7 @@ where
     BP: BatteryProvider,
 {
     time_provider: TP,
-    battery_provider: BP,
+    battery_provider: Option<BP>,
 }
 
 impl<TP, BP> Watchface<TP, BP>
@@ -46,7 +46,7 @@ where
     TP: TimeProvider,
     BP: BatteryProvider,
 {
-    pub fn new(time_provider: TP, battery_provider: BP) -> Watchface<TP, BP> {
+    pub fn new(time_provider: TP, battery_provider: Option<BP>) -> Watchface<TP, BP> {
         Watchface {
             time_provider,
             battery_provider,
@@ -68,17 +68,20 @@ where
             .center(display)
             .draw(display)?;
 
-        BatteryIcon {
-            top_left: Point::new(0, 0),
-            bottom_right: Point::new(10, 20),
-            bg_color: Rgb565::BLACK,
-            fg_color: Rgb565::WHITE,
-            empty_color: Rgb565::RED,
-            full_color: Rgb565::GREEN,
-            state_of_charge: self.battery_provider.get_state_of_charge(),
+        if let Some(battery_provider) = &self.battery_provider {
+            BatteryIcon {
+                top_left: Point::new(0, 0),
+                bottom_right: Point::new(10, 20),
+                bg_color: Rgb565::BLACK,
+                fg_color: Rgb565::WHITE,
+                empty_color: Rgb565::RED,
+                full_color: Rgb565::GREEN,
+                state_of_charge: battery_provider.get_state_of_charge(),
+            }
+                .translate_to_top_right(display)
+                .draw(display)?;
+
         }
-        .translate_to_top_right(display)
-        .draw(display)?;
 
         Ok(())
     }
