@@ -17,9 +17,10 @@
 
 use crate::battery_icon::*;
 use crate::drawable_utils::*;
+use crate::font::NumbersFont;
 use embedded_graphics::style::TextStyleBuilder;
 use embedded_graphics::{
-    fonts::{Font24x32, Text},
+    fonts::Text,
     pixelcolor::Rgb565,
     prelude::*,
 };
@@ -57,7 +58,7 @@ where
         &self,
         display: &mut D,
     ) -> core::result::Result<(), D::Error> {
-        let time_text_style = TextStyleBuilder::new(Font24x32)
+        let time_text_style = TextStyleBuilder::new(NumbersFont{})
             .text_color(Rgb565::BLUE)
             .background_color(Rgb565::BLACK)
             .build();
