@@ -51,10 +51,9 @@ impl watchface::TimeProvider for TimeOfDayProvider {
         let mut text = String::new();
         write!(
             &mut text,
-            "{:02}:{:02}:{:02}",
+            "{:02}:{:02}",
             time.hours_local(),
             time.minutes_local(),
-            time.seconds_local()
         )
         .unwrap();
         text

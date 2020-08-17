@@ -29,6 +29,7 @@ where
     fn center(&mut self, display: &D) -> Self {
         let display_size = display.size();
         let drawable_size = self.size();
+        assert!(drawable_size < display_size);
         let center_x = ((display_size.width - drawable_size.width) / 2) as i32;
         let center_y = ((display_size.height - drawable_size.height) / 2) as i32;
         let center_point = Point::new(center_x, center_y);

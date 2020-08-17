@@ -21,6 +21,8 @@ use embedded_graphics_simulator::{
 };
 
 use chrono::Timelike;
+use heapless::consts::*;
+use heapless::String;
 use std::thread;
 use std::time::Duration;
 use watchface::BatteryProvider;
@@ -30,8 +32,8 @@ use watchface::Watchface;
 struct NowProvider {}
 
 impl TimeProvider for NowProvider {
-    fn get_time(&self) -> String {
-        chrono::Local::now().format("%H:%M:%S").to_string()
+    fn get_time(&self) -> String<U8> {
+        heapless::String::from(chrono::Local::now().format("%H:%M").to_string().as_ref())
     }
 }
 
@@ -52,7 +54,7 @@ fn main() -> Result<(), core::convert::Infallible> {
     let now_provider = NowProvider {};
     let battery_provider = StubBatteryProvider {};
 
-    let watchface = Watchface::new(now_provider, battery_provider);
+    let watchface = Watchface::new(now_provider, Some(battery_provider));
 
     'running: loop {
         watchface.draw(&mut display)?;
