@@ -22,3 +22,12 @@ reuse:
     entrypoint: [""]
   script:
     - reuse lint
+
+conventional-commits:
+  image:
+    name: rust
+  before_script:
+    - cargo install convco
+  script:
+    - git fetch origin
+    - convco check origin/master..HEAD
