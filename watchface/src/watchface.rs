@@ -59,7 +59,7 @@ where
         display: &mut D,
     ) -> core::result::Result<(), D::Error> {
         let time_text_style = TextStyleBuilder::new(NumbersFont{})
-            .text_color(Rgb565::BLUE)
+            .text_color(Rgb565::WHITE)
             .background_color(Rgb565::BLACK)
             .build();
 
