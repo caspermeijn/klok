@@ -32,7 +32,8 @@ use heapless::consts::*;
 use heapless::String;
 use mynewt_core_kernel_os::callout::Callout;
 use mynewt_core_kernel_os::task::Task;
-use mynewt_core_kernel_os::time::{Delay, TimeOfDay};
+use mynewt_core_kernel_os::time::{Delay, TimeOfDay, TimeChangeListener};
+use mynewt_core_kernel_os::queue::EventQueue;
 use mynewt_nimble_host::advertiser::BleAdvertiser;
 use watchface::Watchface;
 
@@ -68,7 +69,12 @@ impl watchface::BatteryProvider for StubBatteryProvider {
     }
 }
 
+static mut DRAW_EVENTQ: EventQueue = EventQueue::new();
+static mut DRAW_CALLOUT: Callout = Callout::new();
+
 fn draw_task() {
+    unsafe { DRAW_EVENTQ.init() };
+
     let mut display_spi = unsafe { BSP.display_spi.take().unwrap() };
     let mut display_data_command = unsafe { BSP.display_data_command.take().unwrap() };
     let mut display_reset = unsafe { BSP.display_reset.take().unwrap() };
@@ -93,16 +99,26 @@ fn draw_task() {
 
     let watchface: Watchface<_, StubBatteryProvider> = Watchface::new(now_provider, None);
 
-    loop {
-        watchface.draw(&mut display).unwrap();
+    unsafe {
+        DRAW_CALLOUT.init(move || {
+            watchface.draw(&mut display).unwrap();
 
-        delay.delay_ms(100);
+            let time = TimeOfDay::getTimeOfDay().unwrap();
+            let delay_seconds = 60 - time.seconds();
+            unsafe { DRAW_CALLOUT.reset(delay_seconds as u32 * 1000); }
+        }, &mut DRAW_EVENTQ);
+    }
+    unsafe { DRAW_CALLOUT.reset(1000) };
+
+    loop {
+        unsafe { DRAW_EVENTQ.run() };
     }
 }
 
 static mut BSP: mynewt_pinetime_bsp::Bsp = mynewt_pinetime_bsp::Bsp::new();
 static mut TASK: Task = Task::new();
 static mut BACKLIGHT_CALLOUT: Callout = Callout::new();
+static mut TIME_CHANGE_LISTENER: TimeChangeListener = TimeChangeListener::new();
 
 #[no_mangle]
 pub extern "C" fn main() {
@@ -123,6 +139,12 @@ pub extern "C" fn main() {
 
     unsafe {
         TASK.init("draw", draw_task, 200);
+    }
+
+    unsafe {
+        TIME_CHANGE_LISTENER.register(move || {
+            DRAW_CALLOUT.reset(0);
+        })
     }
 
     if false {
