@@ -103,7 +103,9 @@ fn draw_task() {
         DRAW_CALLOUT.init(move || {
             watchface.draw(&mut display).unwrap();
 
-            unsafe { DRAW_CALLOUT.reset(100); }
+            let time = TimeOfDay::getTimeOfDay().unwrap();
+            let delay_seconds = 60 - time.seconds();
+            unsafe { DRAW_CALLOUT.reset(delay_seconds as u32 * 1000); }
         }, &mut DRAW_EVENTQ);
     }
     unsafe { DRAW_CALLOUT.reset(1000) };
