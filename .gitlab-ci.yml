@@ -2,21 +2,40 @@
 #
 # SPDX-License-Identifier: CC0-1.0
 
-include:
-  template: SAST.gitlab-ci.yml
+stages:
+  - version
+  - build
+  - test
+
+version:
+  stage: version
+  image: registry.gitlab.com/juhani/go-semrel-gitlab:v0.21.1
+  script:
+    - release next-version --allow-current > .next-version
+    - echo Next version is $(<.next-version)
+    - release changelog
+  artifacts:
+    paths:
+      - .next-version
+      - CHANGELOG.md
+  except:
+    - tags
+
 
 build:
+  stage: build
   image: registry.gitlab.com/caspermeijn/docker-images/pinetime-build:latest
   script:
     - newt upgrade
     - newt build boot-pinetime
     - newt build klok-pinetime
-    - newt create-image klok-pinetime 0.1
+    - newt create-image klok-pinetime $(<.next-version)
   artifacts:
     paths:
       - bin/targets/klok-pinetime/app/apps/klok/klok.img
 
 reuse:
+  stage: build
   image:
     name: fsfe/reuse:latest
     entrypoint: [""]
@@ -24,6 +43,7 @@ reuse:
     - reuse lint
 
 conventional-commits:
+  stage: build
   image:
     name: rust
   before_script:
