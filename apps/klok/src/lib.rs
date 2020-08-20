@@ -118,6 +118,7 @@ fn draw_task() {
 static mut BSP: mynewt_pinetime_bsp::Bsp = mynewt_pinetime_bsp::Bsp::new();
 static mut TASK: Task = Task::new();
 static mut BACKLIGHT_CALLOUT: Callout = Callout::new();
+static mut TIME_CHANGE_LISTENER: TimeChangeListener = TimeChangeListener::new();
 
 #[no_mangle]
 pub extern "C" fn main() {
@@ -138,6 +139,12 @@ pub extern "C" fn main() {
 
     unsafe {
         TASK.init("draw", draw_task, 200);
+    }
+
+    unsafe {
+        TIME_CHANGE_LISTENER.register(move || {
+            DRAW_CALLOUT.reset(0);
+        })
     }
 
     if false {
