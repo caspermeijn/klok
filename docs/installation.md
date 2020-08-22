@@ -25,6 +25,11 @@ Instructions:
 - Choose "Distribution ZIP"
 - Choose the downloaded file
 - Wait for the upgrade to complete
+- Connect to the device again
+- Click "SMP Service"
+- Click the single arrow up icon
+- Select command "Image / Confirm"
+- Click "Send"
 
 ### PineTime Updater
 This method is most suitable for first time use of the PineTime, especially when the Flash ROM Protection is still 
