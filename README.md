@@ -32,3 +32,7 @@ For now it is just ideas and a prototype that just show the time (and nothing ot
 Name
 ----
 The name "Klok" comes from the Dutch word for clock. It is also a posh word for watch.
+
+Installation
+------------
+See [installation](docs/installation.md)
