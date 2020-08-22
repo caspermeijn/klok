@@ -11,7 +11,7 @@ project.repositories:
 repository.apache-mynewt-core:
     type: github
     vers: 0-dev
-    user: caspermeijn
+    user: apache
     repo: mynewt-core
 
 repository.mynewt-rust:
