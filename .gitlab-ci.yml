@@ -34,6 +34,9 @@ build:
   artifacts:
     paths:
       - bin/targets/klok-pinetime/app/apps/klok/klok.img
+  cache:
+    paths:
+      - repos
 
 reuse:
   stage: build
@@ -42,6 +45,7 @@ reuse:
     entrypoint: [""]
   script:
     - reuse lint
+  needs: []
 
 conventional-commits:
   stage: build
@@ -52,6 +56,8 @@ conventional-commits:
   script:
     - git fetch origin
     - convco check origin/master..HEAD
+  needs: []
+
 deploy:
   stage: deploy
   image: python:3.8
@@ -62,6 +68,8 @@ deploy:
     - mkdir dfu && pushd dfu
     - cp ../klok.img klok_dfu.bin
     - adafruit-nrfutil dfu genpkg --dev-type 0x0052 --application klok_dfu.bin klok_dfu.zip
+  needs:
+    - build
   artifacts:
     paths:
       - klok.img
