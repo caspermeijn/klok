@@ -7,6 +7,7 @@ stages:
   - build
   - test
   - deploy
+  - release
 
 version:
   stage: version
@@ -68,10 +69,30 @@ deploy:
     - mkdir dfu && pushd dfu
     - cp ../klok.img klok_dfu.bin
     - adafruit-nrfutil dfu genpkg --dev-type 0x0052 --application klok_dfu.bin klok_dfu.zip
+    - popd
+    - echo "RELEASE_BASE_URL=https://gitlab.com/api/v4/projects/$CI_PROJECT_ID/jobs/$CI_JOB_ID/artifacts/" > release_info
+    - echo "RELEASE_SHA=$CI_COMMIT_SHA" >> release_info
+    - echo "RELEASE_VERSION=$(<.next-version)" >> release_info
   needs:
     - build
   artifacts:
     paths:
+      - release_info
       - klok.img
       - dfu/klok_dfu.bin
       - dfu/klok_dfu.zip
+
+release:
+  stage: release
+  image: registry.gitlab.com/juhani/go-semrel-gitlab:v0.21.1
+  script:
+    - . release_info
+    - release -v
+    - release tag
+    - release --ci-commit-tag v$RELEASE_VERSION add-download-link -n "Klok PineTime image" -u ${RELEASE_BASE_URL}/klok.img -d "Klok PineTime image v$RELEASE_VERSION"
+    - release --ci-commit-tag v$RELEASE_VERSION add-download-link -n "Klok PineTime dfu binary" -u ${RELEASE_BASE_URL}/dfu/klok_dfu.bin -d "Klok PineTime dfu binary v$RELEASE_VERSION"
+    - release --ci-commit-tag v$RELEASE_VERSION add-download-link -n "Klok PineTime dfu distribution zip" -u ${RELEASE_BASE_URL}/dfu/klok_dfu.zip -d "Klok PineTime dfu distribution zip v$RELEASE_VERSION"
+  when: manual
+  only:
+    - master
+
