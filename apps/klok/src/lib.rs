@@ -146,6 +146,10 @@ pub extern "C" fn main() {
         VERSION_STRING.as_ref().unwrap()
     });
 
+    mynewt_core_sys_config::conf_load();
+
+    mynewt_core_sys_reboot::reboot_start();
+
     unsafe {
         BSP.init();
     }
