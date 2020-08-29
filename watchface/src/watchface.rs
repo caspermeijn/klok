@@ -19,11 +19,7 @@ use crate::battery_icon::*;
 use crate::drawable_utils::*;
 use crate::font::NumbersFont;
 use embedded_graphics::style::TextStyleBuilder;
-use embedded_graphics::{
-    fonts::Text,
-    pixelcolor::Rgb565,
-    prelude::*,
-};
+use embedded_graphics::{fonts::Text, pixelcolor::Rgb565, prelude::*};
 
 pub trait BatteryProvider {
     fn get_state_of_charge(&self) -> f32;
@@ -58,7 +54,7 @@ where
         &self,
         display: &mut D,
     ) -> core::result::Result<(), D::Error> {
-        let time_text_style = TextStyleBuilder::new(NumbersFont{})
+        let time_text_style = TextStyleBuilder::new(NumbersFont {})
             .text_color(Rgb565::WHITE)
             .background_color(Rgb565::BLACK)
             .build();

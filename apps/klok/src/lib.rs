@@ -31,9 +31,9 @@ use core::fmt::Write;
 use heapless::consts::*;
 use heapless::String;
 use mynewt_core_kernel_os::callout::Callout;
-use mynewt_core_kernel_os::task::Task;
-use mynewt_core_kernel_os::time::{Delay, TimeOfDay, TimeChangeListener};
 use mynewt_core_kernel_os::queue::EventQueue;
+use mynewt_core_kernel_os::task::Task;
+use mynewt_core_kernel_os::time::{Delay, TimeChangeListener, TimeOfDay};
 use mynewt_nimble_host::advertiser::BleAdvertiser;
 use watchface::Watchface;
 
@@ -100,13 +100,18 @@ fn draw_task() {
     let watchface: Watchface<_, StubBatteryProvider> = Watchface::new(now_provider, None);
 
     unsafe {
-        DRAW_CALLOUT.init(move || {
-            watchface.draw(&mut display).unwrap();
+        DRAW_CALLOUT.init(
+            move || {
+                watchface.draw(&mut display).unwrap();
 
-            let time = TimeOfDay::getTimeOfDay().unwrap();
-            let delay_seconds = 60 - time.seconds();
-            unsafe { DRAW_CALLOUT.reset(delay_seconds as u32 * 1000); }
-        }, &mut DRAW_EVENTQ);
+                let time = TimeOfDay::getTimeOfDay().unwrap();
+                let delay_seconds = 60 - time.seconds();
+                unsafe {
+                    DRAW_CALLOUT.reset(delay_seconds as u32 * 1000);
+                }
+            },
+            &mut DRAW_EVENTQ,
+        );
     }
     unsafe { DRAW_CALLOUT.reset(1000) };
 
@@ -149,7 +154,7 @@ pub extern "C" fn main() {
 
     if false {
         unsafe {
-               BACKLIGHT_CALLOUT.init_default_queue(move || {
+            BACKLIGHT_CALLOUT.init_default_queue(move || {
                 backlight_high.toggle();
                 unsafe { BACKLIGHT_CALLOUT.reset(1000) };
             })
