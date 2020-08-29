@@ -34,6 +34,7 @@ use mynewt_core_kernel_os::callout::Callout;
 use mynewt_core_kernel_os::queue::EventQueue;
 use mynewt_core_kernel_os::task::Task;
 use mynewt_core_kernel_os::time::{Delay, TimeChangeListener, TimeOfDay};
+use mynewt_core_mgmt_imgmgr::ImageVersion;
 use mynewt_nimble_host::advertiser::BleAdvertiser;
 use watchface::Watchface;
 
@@ -124,6 +125,7 @@ static mut BSP: mynewt_pinetime_bsp::Bsp = mynewt_pinetime_bsp::Bsp::new();
 static mut TASK: Task = Task::new();
 static mut BACKLIGHT_CALLOUT: Callout = Callout::new();
 static mut TIME_CHANGE_LISTENER: TimeChangeListener = TimeChangeListener::new();
+static mut VERSION_STRING: Option<String<U12>> = None;
 
 #[no_mangle]
 pub extern "C" fn main() {
@@ -133,6 +135,16 @@ pub extern "C" fn main() {
         sysinit_app();
         sysinit_end();
     }
+
+    let version = mynewt_core_mgmt_imgmgr::ImageVersion::get_current().unwrap();
+    let mut version_string: String<U12> = version.into();
+    version_string.push_str("\0");
+    unsafe {
+        VERSION_STRING = Some(version_string);
+    }
+    mynewt_nimble_host_services::device_information::set_firmware_revision(unsafe {
+        VERSION_STRING.as_ref().unwrap()
+    });
 
     unsafe {
         BSP.init();
