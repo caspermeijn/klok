@@ -138,7 +138,7 @@ pub extern "C" fn main() {
 
     let version = mynewt_core_mgmt_imgmgr::ImageVersion::get_current().unwrap();
     let mut version_string: String<U12> = version.into();
-    version_string.push_str("\0");
+    version_string.push_str("\0").unwrap();
     unsafe {
         VERSION_STRING = Some(version_string);
     }
