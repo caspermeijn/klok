@@ -16,7 +16,7 @@ pkg.deps:
     - "@apache-mynewt-core/kernel/os"
     - "@apache-mynewt-core/hw/hal"
     - "@apache-mynewt-core/sys/console/stub"
-    - "@apache-mynewt-core/sys/log/stub"
+    - "@apache-mynewt-core/sys/log/full"
     - "@apache-mynewt-core/sys/stats/stub"
     - "@apache-mynewt-core/hw/bus"
     - "@apache-mynewt-nimble/nimble/host"

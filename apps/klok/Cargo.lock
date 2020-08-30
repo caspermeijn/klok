@@ -361,6 +361,59 @@ dependencies = [
 ]
 
 [[package]]
+name = "mynewt-core-mgmt-imgmgr"
+version = "0.1.0"
+dependencies = [
+ "cty 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "heapless 0.5.5 (registry+https://github.com/rust-lang/crates.io-index)",
+ "mynewt-core-mgmt-imgmgr-bindgen 0.1.0",
+]
+
+[[package]]
+name = "mynewt-core-mgmt-imgmgr-bindgen"
+version = "0.1.0"
+dependencies = [
+ "bindgen 0.54.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "cty 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "mynewt-bindgen-helper 0.1.0",
+]
+
+[[package]]
+name = "mynewt-core-sys-config"
+version = "0.1.0"
+dependencies = [
+ "cty 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "mynewt-core-sys-config-bindgen 0.1.0",
+]
+
+[[package]]
+name = "mynewt-core-sys-config-bindgen"
+version = "0.1.0"
+dependencies = [
+ "bindgen 0.54.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "cty 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "mynewt-bindgen-helper 0.1.0",
+]
+
+[[package]]
+name = "mynewt-core-sys-reboot"
+version = "0.1.0"
+dependencies = [
+ "cty 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "mynewt-core-hw-hal-bindgen 0.1.0",
+ "mynewt-core-sys-reboot-bindgen 0.1.0",
+]
+
+[[package]]
+name = "mynewt-core-sys-reboot-bindgen"
+version = "0.1.0"
+dependencies = [
+ "bindgen 0.54.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "cty 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "mynewt-bindgen-helper 0.1.0",
+]
+
+[[package]]
 name = "mynewt-nimble-host"
 version = "0.1.0"
 dependencies = [
@@ -372,6 +425,23 @@ dependencies = [
 
 [[package]]
 name = "mynewt-nimble-host-bindgen"
+version = "0.1.0"
+dependencies = [
+ "bindgen 0.54.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "cty 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "mynewt-bindgen-helper 0.1.0",
+]
+
+[[package]]
+name = "mynewt-nimble-host-services"
+version = "0.1.0"
+dependencies = [
+ "cty 0.2.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "mynewt-nimble-host-services-bindgen 0.1.0",
+]
+
+[[package]]
+name = "mynewt-nimble-host-services-bindgen"
 version = "0.1.0"
 dependencies = [
  "bindgen 0.54.1 (registry+https://github.com/rust-lang/crates.io-index)",
@@ -475,7 +545,11 @@ dependencies = [
  "heapless 0.5.5 (registry+https://github.com/rust-lang/crates.io-index)",
  "mynewt-core-hw-hal 0.1.0",
  "mynewt-core-kernel-os 0.1.0",
+ "mynewt-core-mgmt-imgmgr 0.1.0",
+ "mynewt-core-sys-config 0.1.0",
+ "mynewt-core-sys-reboot 0.1.0",
  "mynewt-nimble-host 0.1.0",
+ "mynewt-nimble-host-services 0.1.0",
  "mynewt-pinetime-bsp 0.1.0",
  "panic-semihosting 0.5.3 (registry+https://github.com/rust-lang/crates.io-index)",
  "st7789 0.5.0 (registry+https://github.com/rust-lang/crates.io-index)",

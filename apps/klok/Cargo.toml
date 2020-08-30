@@ -14,6 +14,8 @@ mynewt-pinetime-bsp = { version = "0.1.0", path = "../../repos/mynewt-rust/mynew
 mynewt-core-hw-hal = { version = "0.1.0", path = "../../repos/mynewt-rust/mynewt-core-hw-hal" }
 mynewt-core-kernel-os = { version = "0.1.0", path = "../../repos/mynewt-rust/mynewt-core-kernel-os" }
 mynewt-core-mgmt-imgmgr = { version = "0.1.0", path = "../../repos/mynewt-rust/mynewt-core-mgmt-imgmgr" }
+mynewt-core-sys-reboot = { version = "0.1.0", path = "../../repos/mynewt-rust/mynewt-core-sys-reboot" }
+mynewt-core-sys-config = { version = "0.1.0", path = "../../repos/mynewt-rust/mynewt-core-sys-config" }
 mynewt-nimble-host = { version = "0.1.0", path = "../../repos/mynewt-rust/mynewt-nimble-host" }
 mynewt-nimble-host-services = { version = "0.1.0", path = "../../repos/mynewt-rust/mynewt-nimble-host-services" }
 st7789 = "0.5.0"

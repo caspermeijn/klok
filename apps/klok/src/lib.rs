@@ -138,13 +138,17 @@ pub extern "C" fn main() {
 
     let version = mynewt_core_mgmt_imgmgr::ImageVersion::get_current().unwrap();
     let mut version_string: String<U12> = version.into();
-    version_string.push_str("\0");
+    version_string.push_str("\0").unwrap();
     unsafe {
         VERSION_STRING = Some(version_string);
     }
     mynewt_nimble_host_services::device_information::set_firmware_revision(unsafe {
         VERSION_STRING.as_ref().unwrap()
     });
+
+    mynewt_core_sys_config::conf_load();
+
+    mynewt_core_sys_reboot::reboot_start();
 
     unsafe {
         BSP.init();
