@@ -27,3 +27,4 @@ pkg.deps:
     - "@apache-mynewt-core/mgmt/smp/transport/ble"
     - "@apache-mynewt-core/mgmt/smp/smp_os"
     - "@apache-mynewt-core/mgmt/imgmgr"
+    - libs/battery_measurement
