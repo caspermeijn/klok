@@ -148,7 +148,9 @@ pub extern "C" fn main() {
         VERSION_STRING.as_ref().unwrap()
     });
 
-    unsafe { battery_measurement_init(); }
+    unsafe {
+        battery_measurement_init();
+    }
 
     mynewt_core_sys_config::conf_load();
 
