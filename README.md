@@ -36,3 +36,7 @@ The name "Klok" comes from the Dutch word for clock. It is also a posh word for 
 Installation
 ------------
 See [installation](docs/installation.md)
+
+Updrage
+-------
+See [updrage](docs/upgrade.md)
