@@ -18,7 +18,7 @@ firmwares:
 
 Instructions:
 - Install [nRF Connect](https://play.google.com/store/apps/details?id=no.nordicsemi.android.mcp) on a Android smartphone.
-- Download [klok_dfu.zip](https://gitlab.com/caspermeijn/klok/-/jobs/artifacts/master/raw/dfu/klok_dfu.zip?job=deploy) to the phone
+- Download [klok_dfu.zip](https://gitlab.com/caspermeijn/klok/-/jobs/artifacts/master/raw/dfu/klok_dfu.zip?job=package) to the phone
 - Open "nRF Connect" app
 - Choose "connect" for your PineTime device
 - In the right-upper corner choose the "DFU" icon
