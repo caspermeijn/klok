@@ -42,6 +42,8 @@ extern "C" {
     fn sysinit_start();
     fn sysinit_app();
     fn sysinit_end();
+
+    fn battery_measurement_init();
 }
 
 struct TimeOfDayProvider {}
@@ -145,6 +147,10 @@ pub extern "C" fn main() {
     mynewt_nimble_host_services::device_information::set_firmware_revision(unsafe {
         VERSION_STRING.as_ref().unwrap()
     });
+
+    unsafe {
+        battery_measurement_init();
+    }
 
     mynewt_core_sys_config::conf_load();
 

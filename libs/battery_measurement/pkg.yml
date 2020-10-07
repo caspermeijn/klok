@@ -1,0 +1,13 @@
+# Copyright (C) 2020 Casper Meijn <casper@meijn.net>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+pkg.name: "libs/battery_measurement"
+pkg.description: "Battery measurements to a cbmem log"
+pkg.author: "Casper Meijn <casper@meijn.net>"
+pkg.homepage: "https://gitlab.com/caspermeijn/klok"
+pkg.keywords:
+
+pkg.deps:
+  - "@apache-mynewt-core/hw/drivers/temp/temp_nrf52"
+  - "@apache-mynewt-core/sys/metrics"
