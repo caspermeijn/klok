@@ -10,12 +10,12 @@ project.repositories:
 
 repository.apache-mynewt-core:
     type: github
-    vers: 0-dev
+    vers: bf329478be3e737f33abf7a00c9ea15f6b38bd32-commit
     user: apache
     repo: mynewt-core
 
 repository.mynewt-rust:
     type: github
-    vers: 0-dev
+    vers: a83081000501f3ae29b18aa8eb9b8ebfede0ae0f-commit
     user: caspermeijn
     repo: mynewt-rust
