@@ -5,8 +5,9 @@ set -eu
 # SPDX-License-Identifier: CC0-1.0
 
 TARGET="thumbv7m-none-eabi"
+BUILD_PROFILE="${MYNEWT_BUILD_PROFILE-default}"
 
-if [ "${MYNEWT_BUILD_PROFILE}" = "optimized" ] || [ "${MYNEWT_BUILD_PROFILE}" = "speed" ]; then
+if [ "${BUILD_PROFILE}" = "optimized" ] || [ "${BUILD_PROFILE}" = "speed" ]; then
   cargo +nightly build --release --target="${TARGET}" --target-dir="${MYNEWT_PKG_BIN_DIR}"
   cp "${MYNEWT_PKG_BIN_DIR}"/${TARGET}/release/*.a "${MYNEWT_PKG_BIN_ARCHIVE}"
 else
