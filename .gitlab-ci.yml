@@ -25,11 +25,11 @@ build:
   script:
     - newt upgrade
     - newt build boot-pinetime
-    - newt build klok-pinetime
-    - newt create-image klok-pinetime $(<.next-version)
+    - newt build klok-pinetime-release
+    - newt create-image klok-pinetime-release $(<.next-version)
   artifacts:
     paths:
-      - bin/targets/klok-pinetime/app/apps/klok/klok.img
+      - bin/targets/klok-pinetime-release/app/apps/klok/klok.img
   cache:
     paths:
       - repos
@@ -59,7 +59,7 @@ package:
   before_script:
     - pip install adafruit-nrfutil
   script:
-    - cp bin/targets/klok-pinetime/app/apps/klok/klok.img klok.img
+    - cp bin/targets/klok-pinetime-release/app/apps/klok/klok.img klok.img
     - mkdir dfu && pushd dfu
     - cp ../klok.img klok_dfu.bin
     - adafruit-nrfutil dfu genpkg --dev-type 0x0052 --application klok_dfu.bin klok_dfu.zip
