@@ -1,0 +1,10 @@
+# Copyright (C) 2020 Casper Meijn <casper@meijn.net>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+pkg.name: "targets/klok-pinetime-release"
+pkg.type: target
+pkg.description: 
+pkg.author: 
+pkg.homepage: 
+
