@@ -10,14 +10,7 @@ edition = "2018"
 
 [dependencies]
 panic-semihosting = "0.5.3"
-mynewt-pinetime-bsp = { version = "0.1.0", path = "../../repos/mynewt-rust/mynewt-pinetime-bsp" }
-mynewt-core-hw-hal = { version = "0.1.0", path = "../../repos/mynewt-rust/mynewt-core-hw-hal" }
-mynewt-core-kernel-os = { version = "0.1.0", path = "../../repos/mynewt-rust/mynewt-core-kernel-os" }
-mynewt-core-mgmt-imgmgr = { version = "0.1.0", path = "../../repos/mynewt-rust/mynewt-core-mgmt-imgmgr" }
-mynewt-core-sys-reboot = { version = "0.1.0", path = "../../repos/mynewt-rust/mynewt-core-sys-reboot" }
-mynewt-core-sys-config = { version = "0.1.0", path = "../../repos/mynewt-rust/mynewt-core-sys-config" }
-mynewt-nimble-host = { version = "0.1.0", path = "../../repos/mynewt-rust/mynewt-nimble-host" }
-mynewt-nimble-host-services = { version = "0.1.0", path = "../../repos/mynewt-rust/mynewt-nimble-host-services" }
+mynewt = { version = "0.1.0", path = "../../repos/mynewt-rust/mynewt" }
 st7789 = "0.5.0"
 display-interface-spi = "0.4.0"
 embedded-graphics = "0.6.2"

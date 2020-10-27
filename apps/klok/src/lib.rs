@@ -20,8 +20,6 @@
 
 extern crate panic_semihosting;
 
-extern crate mynewt_core_hw_hal as hal;
-
 use display_interface_spi::SPIInterfaceNoCS;
 use embedded_graphics::{pixelcolor::Rgb565, prelude::*};
 use embedded_hal::blocking::delay::DelayMs;
@@ -30,12 +28,13 @@ use st7789::{Orientation, ST7789};
 use core::fmt::Write;
 use heapless::consts::*;
 use heapless::String;
-use mynewt_core_kernel_os::callout::Callout;
-use mynewt_core_kernel_os::queue::EventQueue;
-use mynewt_core_kernel_os::task::Task;
-use mynewt_core_kernel_os::time::{Delay, TimeChangeListener, TimeOfDay};
-use mynewt_core_mgmt_imgmgr::ImageVersion;
-use mynewt_nimble_host::advertiser::BleAdvertiser;
+use mynewt::core::hw::hal::gpio::PinState;
+use mynewt::core::kernel::os::callout::Callout;
+use mynewt::core::kernel::os::queue::EventQueue;
+use mynewt::core::kernel::os::task::Task;
+use mynewt::core::kernel::os::time::{Delay, TimeChangeListener, TimeOfDay};
+use mynewt::core::mgmt::imgmgr::ImageVersion;
+use mynewt::nimble::host::advertiser::BleAdvertiser;
 use watchface::Watchface;
 
 extern "C" {
@@ -123,7 +122,7 @@ fn draw_task() {
     }
 }
 
-static mut BSP: mynewt_pinetime_bsp::Bsp = mynewt_pinetime_bsp::Bsp::new();
+static mut BSP: mynewt::core::hw::bsp::pinetime::Bsp = mynewt::core::hw::bsp::pinetime::Bsp::new();
 static mut TASK: Task = Task::new();
 static mut BACKLIGHT_CALLOUT: Callout = Callout::new();
 static mut TIME_CHANGE_LISTENER: TimeChangeListener = TimeChangeListener::new();
@@ -138,13 +137,13 @@ pub extern "C" fn main() {
         sysinit_end();
     }
 
-    let version = mynewt_core_mgmt_imgmgr::ImageVersion::get_current().unwrap();
+    let version = mynewt::core::mgmt::imgmgr::ImageVersion::get_current().unwrap();
     let mut version_string: String<U12> = version.into();
     version_string.push_str("\0").unwrap();
     unsafe {
         VERSION_STRING = Some(version_string);
     }
-    mynewt_nimble_host_services::device_information::set_firmware_revision(unsafe {
+    mynewt::nimble::host::services::device_information::set_firmware_revision(unsafe {
         VERSION_STRING.as_ref().unwrap()
     });
 
@@ -152,9 +151,9 @@ pub extern "C" fn main() {
         battery_measurement_init();
     }
 
-    mynewt_core_sys_config::conf_load();
+    mynewt::core::sys::config::conf_load();
 
-    mynewt_core_sys_reboot::reboot_start();
+    mynewt::core::sys::reboot::reboot_start();
 
     unsafe {
         BSP.init();
@@ -162,7 +161,7 @@ pub extern "C" fn main() {
     let mut delay = Delay {};
 
     let mut backlight_high = unsafe { BSP.backlight_high.take().unwrap() };
-    backlight_high.write(hal::gpio::PinState::High);
+    backlight_high.write(PinState::High);
 
     unsafe {
         TASK.init("draw", draw_task, 200);
@@ -186,5 +185,5 @@ pub extern "C" fn main() {
 
     BleAdvertiser::start();
 
-    mynewt_core_kernel_os::queue::loop_default_queue();
+    mynewt::core::kernel::os::queue::loop_default_queue();
 }
