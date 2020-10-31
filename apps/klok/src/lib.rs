@@ -22,7 +22,6 @@ extern crate panic_semihosting;
 
 use display_interface_spi::SPIInterfaceNoCS;
 use embedded_graphics::{pixelcolor::Rgb565, prelude::*};
-use embedded_hal::blocking::delay::DelayMs;
 use st7789::{Orientation, ST7789};
 
 use core::fmt::Write;
@@ -77,9 +76,9 @@ static mut DRAW_CALLOUT: Callout = Callout::new();
 fn draw_task() {
     unsafe { DRAW_EVENTQ.init() };
 
-    let mut display_spi = unsafe { BSP.display_spi.take().unwrap() };
-    let mut display_data_command = unsafe { BSP.display_data_command.take().unwrap() };
-    let mut display_reset = unsafe { BSP.display_reset.take().unwrap() };
+    let display_spi = unsafe { BSP.display_spi.take().unwrap() };
+    let display_data_command = unsafe { BSP.display_data_command.take().unwrap() };
+    let display_reset = unsafe { BSP.display_reset.take().unwrap() };
 
     // display interface abstraction from SPI and DC
     let di = SPIInterfaceNoCS::new(display_spi, display_data_command);
@@ -108,9 +107,7 @@ fn draw_task() {
 
                 let time = TimeOfDay::getTimeOfDay().unwrap();
                 let delay_seconds = 60 - time.seconds();
-                unsafe {
-                    DRAW_CALLOUT.reset(delay_seconds as u32 * 1000);
-                }
+                DRAW_CALLOUT.reset(delay_seconds as u32 * 1000);
             },
             &mut DRAW_EVENTQ,
         );
@@ -137,7 +134,7 @@ pub extern "C" fn main() {
         sysinit_end();
     }
 
-    let version = mynewt::core::mgmt::imgmgr::ImageVersion::get_current().unwrap();
+    let version = ImageVersion::get_current().unwrap();
     let mut version_string: String<U12> = version.into();
     version_string.push_str("\0").unwrap();
     unsafe {
@@ -158,13 +155,12 @@ pub extern "C" fn main() {
     unsafe {
         BSP.init();
     }
-    let mut delay = Delay {};
 
     let mut backlight_high = unsafe { BSP.backlight_high.take().unwrap() };
     backlight_high.write(PinState::High);
 
     unsafe {
-        TASK.init("draw", draw_task, 200);
+        TASK.init("draw", draw_task, 200).unwrap();
     }
 
     unsafe {
@@ -177,10 +173,10 @@ pub extern "C" fn main() {
         unsafe {
             BACKLIGHT_CALLOUT.init_default_queue(move || {
                 backlight_high.toggle();
-                unsafe { BACKLIGHT_CALLOUT.reset(1000) };
-            })
-        };
-        unsafe { BACKLIGHT_CALLOUT.reset(1000) };
+                BACKLIGHT_CALLOUT.reset(1000);
+            });
+            BACKLIGHT_CALLOUT.reset(1000);
+        }
     }
 
     BleAdvertiser::start();
