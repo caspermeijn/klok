@@ -22,12 +22,12 @@ extern crate panic_semihosting;
 
 use display_interface_spi::SPIInterfaceNoCS;
 use embedded_graphics::{pixelcolor::Rgb565, prelude::*};
-use embedded_hal::blocking::delay::DelayMs;
 use st7789::{Orientation, ST7789};
 
 use core::fmt::Write;
 use heapless::consts::*;
 use heapless::String;
+use mynewt::core::hw::bsp::pinetime::Bsp;
 use mynewt::core::hw::hal::gpio::PinState;
 use mynewt::core::kernel::os::callout::Callout;
 use mynewt::core::kernel::os::queue::EventQueue;
@@ -77,9 +77,10 @@ static mut DRAW_CALLOUT: Callout = Callout::new();
 fn draw_task() {
     unsafe { DRAW_EVENTQ.init() };
 
-    let mut display_spi = unsafe { BSP.display_spi.take().unwrap() };
-    let mut display_data_command = unsafe { BSP.display_data_command.take().unwrap() };
-    let mut display_reset = unsafe { BSP.display_reset.take().unwrap() };
+    let bsp = unsafe { Bsp::steal() };
+    let display_spi = bsp.display_spi;
+    let display_data_command = bsp.display_data_command;
+    let display_reset = bsp.display_reset;
 
     // display interface abstraction from SPI and DC
     let di = SPIInterfaceNoCS::new(display_spi, display_data_command);
@@ -108,9 +109,7 @@ fn draw_task() {
 
                 let time = TimeOfDay::getTimeOfDay().unwrap();
                 let delay_seconds = 60 - time.seconds();
-                unsafe {
-                    DRAW_CALLOUT.reset(delay_seconds as u32 * 1000);
-                }
+                DRAW_CALLOUT.reset(delay_seconds as u32 * 1000);
             },
             &mut DRAW_EVENTQ,
         );
@@ -122,7 +121,6 @@ fn draw_task() {
     }
 }
 
-static mut BSP: mynewt::core::hw::bsp::pinetime::Bsp = mynewt::core::hw::bsp::pinetime::Bsp::new();
 static mut TASK: Task = Task::new();
 static mut BACKLIGHT_CALLOUT: Callout = Callout::new();
 static mut TIME_CHANGE_LISTENER: TimeChangeListener = TimeChangeListener::new();
@@ -137,7 +135,9 @@ pub extern "C" fn main() {
         sysinit_end();
     }
 
-    let version = mynewt::core::mgmt::imgmgr::ImageVersion::get_current().unwrap();
+    let bsp = Bsp::take().unwrap();
+
+    let version = ImageVersion::get_current().unwrap();
     let mut version_string: String<U12> = version.into();
     version_string.push_str("\0").unwrap();
     unsafe {
@@ -155,16 +155,11 @@ pub extern "C" fn main() {
 
     mynewt::core::sys::reboot::reboot_start();
 
-    unsafe {
-        BSP.init();
-    }
-    let mut delay = Delay {};
-
-    let mut backlight_high = unsafe { BSP.backlight_high.take().unwrap() };
+    let mut backlight_high = bsp.backlight_high;
     backlight_high.write(PinState::High);
 
     unsafe {
-        TASK.init("draw", draw_task, 200);
+        TASK.init("draw", draw_task, 200).unwrap();
     }
 
     unsafe {
@@ -177,10 +172,10 @@ pub extern "C" fn main() {
         unsafe {
             BACKLIGHT_CALLOUT.init_default_queue(move || {
                 backlight_high.toggle();
-                unsafe { BACKLIGHT_CALLOUT.reset(1000) };
-            })
-        };
-        unsafe { BACKLIGHT_CALLOUT.reset(1000) };
+                BACKLIGHT_CALLOUT.reset(1000);
+            });
+            BACKLIGHT_CALLOUT.reset(1000);
+        }
     }
 
     BleAdvertiser::start();
