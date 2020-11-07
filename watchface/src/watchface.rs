@@ -18,6 +18,7 @@
 use crate::battery_icon::*;
 use crate::drawable_utils::*;
 use crate::font::NumbersFont;
+use alloc::string::String;
 use embedded_graphics::style::TextStyleBuilder;
 use embedded_graphics::{fonts::Text, pixelcolor::Rgb565, prelude::*};
 
@@ -26,7 +27,7 @@ pub trait BatteryProvider {
 }
 
 pub trait TimeProvider {
-    fn get_time(&self) -> heapless::String<heapless::consts::U8>;
+    fn get_time(&self) -> String;
 }
 
 pub struct Watchface<TP, BP>

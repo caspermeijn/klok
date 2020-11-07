@@ -18,15 +18,15 @@
 #![feature(const_fn)]
 #![no_std]
 
+extern crate alloc;
 extern crate panic_semihosting;
 
 use display_interface_spi::SPIInterfaceNoCS;
 use embedded_graphics::{pixelcolor::Rgb565, prelude::*};
 use st7789::{Orientation, ST7789};
 
-use core::fmt::Write;
-use heapless::consts::*;
-use heapless::String;
+use alloc::format;
+use alloc::string::String;
 use mynewt::core::hw::bsp::pinetime::Bsp;
 use mynewt::core::hw::hal::gpio::PinState;
 use mynewt::core::kernel::os::callout::Callout;
@@ -48,18 +48,10 @@ extern "C" {
 struct TimeOfDayProvider {}
 
 impl watchface::TimeProvider for TimeOfDayProvider {
-    fn get_time(&self) -> String<U8> {
+    fn get_time(&self) -> String {
         let time = TimeOfDay::getTimeOfDay().unwrap();
 
-        let mut text = String::new();
-        write!(
-            &mut text,
-            "{:02}:{:02}",
-            time.hours_local(),
-            time.minutes_local(),
-        )
-        .unwrap();
-        text
+        format!("{:02}:{:02}", time.hours_local(), time.minutes_local(),)
     }
 }
 
@@ -124,7 +116,6 @@ fn draw_task() {
 static mut TASK: Task = Task::new();
 static mut BACKLIGHT_CALLOUT: Callout = Callout::new();
 static mut TIME_CHANGE_LISTENER: TimeChangeListener = TimeChangeListener::new();
-static mut VERSION_STRING: Option<String<U12>> = None;
 
 #[no_mangle]
 pub extern "C" fn main() {
@@ -138,14 +129,7 @@ pub extern "C" fn main() {
     let bsp = Bsp::take().unwrap();
 
     let version = ImageVersion::get_current().unwrap();
-    let mut version_string: String<U12> = version.into();
-    version_string.push_str("\0").unwrap();
-    unsafe {
-        VERSION_STRING = Some(version_string);
-    }
-    mynewt::nimble::host::services::device_information::set_firmware_revision(unsafe {
-        VERSION_STRING.as_ref().unwrap()
-    });
+    mynewt::nimble::host::services::device_information::set_firmware_revision(version.into());
 
     unsafe {
         battery_measurement_init();

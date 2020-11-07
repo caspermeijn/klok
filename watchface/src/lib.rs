@@ -17,6 +17,8 @@
 
 #![no_std]
 
+extern crate alloc;
+
 mod battery_icon;
 mod drawable_utils;
 mod font;
