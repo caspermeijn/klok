@@ -16,6 +16,6 @@ repository.apache-mynewt-core:
 
 repository.mynewt-rust:
     type: github
-    vers: 41201c61f757bcb2a2b177591e74c579aab0f5d4-commit
+    vers: d12d63d3350f01ef7d12b61ba4eaddebedb9c9f4-commit
     user: caspermeijn
     repo: mynewt-rust
