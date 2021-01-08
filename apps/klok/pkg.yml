@@ -10,7 +10,7 @@ pkg.homepage: "https://gitlab.com/caspermeijn/klok"
 pkg.keywords:
 
 pkg.pre_build_cmds:
-    './cargo_build.sh': 1
+    '../../repos/mynewt-rust/scripts/cargo_build.sh': 1
 
 pkg.deps:
     - "@apache-mynewt-core/kernel/os"

@@ -12,6 +12,5 @@ edition = "2018"
 
 [dependencies]
 embedded-graphics = "0.6.2"
-heapless = "0.5.5"
 #embedded-graphics-simulator = "0.2.0"
 #chrono = "0.4.11"
