@@ -11,8 +11,8 @@ project.repositories:
 
 repository.apache-mynewt-core:
     type: github
-    vers: 0-dev
-    user: apache
+    vers: 20c0af23fd8d94a8499c7443ff8551225ffa726e-commit
+    user: caspermeijn
     repo: mynewt-core
 
 repository.apache-mynewt-mcumgr:
@@ -23,6 +23,6 @@ repository.apache-mynewt-mcumgr:
 
 repository.mynewt-rust:
     type: github
-    vers: d12d63d3350f01ef7d12b61ba4eaddebedb9c9f4-commit
+    vers: 6c13af55086229226874a4190963cd062a735dc1-commit
     user: caspermeijn
     repo: mynewt-rust

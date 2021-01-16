@@ -55,11 +55,26 @@ impl watchface::TimeProvider for TimeOfDayProvider {
     }
 }
 
-struct StubBatteryProvider {}
+struct BatteryProvider {}
 
-impl watchface::BatteryProvider for StubBatteryProvider {
-    fn get_state_of_charge(&self) -> f32 {
-        0.5
+impl BatteryProvider {
+    fn try_get_state_of_charge(&self) -> Result<f32, ()> {
+        let mut battery = mynewt::core::hw::battery::Battery::get_by_number(0)?;
+        let property_state_of_charge =
+            battery.find_property(mynewt::core::hw::battery::PropertyType::StateOfCharge)?;
+        if let Some(mynewt::core::hw::battery::PropertyValue::StateOfCharge(state_of_charge)) =
+            property_state_of_charge.get_value()
+        {
+            Ok(state_of_charge as f32 / 100.0)
+        } else {
+            Err(())
+        }
+    }
+}
+
+impl watchface::BatteryProvider for BatteryProvider {
+    fn try_get_state_of_charge(&self) -> Option<f32> {
+        self.try_get_state_of_charge().ok()
     }
 }
 
@@ -84,6 +99,7 @@ fn draw_task() {
 
     // initialize
     display.init(&mut delay).unwrap();
+
     // set default orientation
     display.set_orientation(Orientation::Portrait).unwrap();
 
@@ -91,8 +107,9 @@ fn draw_task() {
     display.clear(Rgb565::BLACK).unwrap();
 
     let now_provider = TimeOfDayProvider {};
+    let battery_provider = BatteryProvider {};
 
-    let watchface: Watchface<_, StubBatteryProvider> = Watchface::new(now_provider, None);
+    let watchface = Watchface::new(now_provider, battery_provider);
 
     unsafe {
         DRAW_CALLOUT.init(

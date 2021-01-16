@@ -23,7 +23,7 @@ use embedded_graphics::style::TextStyleBuilder;
 use embedded_graphics::{fonts::Text, pixelcolor::Rgb565, prelude::*};
 
 pub trait BatteryProvider {
-    fn get_state_of_charge(&self) -> f32;
+    fn try_get_state_of_charge(&self) -> Option<f32>;
 }
 
 pub trait TimeProvider {
@@ -36,7 +36,7 @@ where
     BP: BatteryProvider,
 {
     time_provider: TP,
-    battery_provider: Option<BP>,
+    battery_provider: BP,
 }
 
 impl<TP, BP> Watchface<TP, BP>
@@ -44,7 +44,7 @@ where
     TP: TimeProvider,
     BP: BatteryProvider,
 {
-    pub fn new(time_provider: TP, battery_provider: Option<BP>) -> Watchface<TP, BP> {
+    pub fn new(time_provider: TP, battery_provider: BP) -> Watchface<TP, BP> {
         Watchface {
             time_provider,
             battery_provider,
@@ -66,7 +66,7 @@ where
             .center(display)
             .draw(display)?;
 
-        if let Some(battery_provider) = &self.battery_provider {
+        if let Some(state_of_charge) = self.battery_provider.try_get_state_of_charge() {
             BatteryIcon {
                 top_left: Point::new(0, 0),
                 bottom_right: Point::new(10, 20),
@@ -74,7 +74,7 @@ where
                 fg_color: Rgb565::WHITE,
                 empty_color: Rgb565::RED,
                 full_color: Rgb565::GREEN,
-                state_of_charge: battery_provider.get_state_of_charge(),
+                state_of_charge,
             }
             .translate_to_top_right(display)
             .draw(display)?;
