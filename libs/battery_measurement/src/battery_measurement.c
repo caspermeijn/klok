@@ -27,6 +27,8 @@
 #include "metrics/metrics.h"
 #include "log/log.h"
 
+#define LOG_TO_FLASH 1
+
 static temperature_t temperature = 0;
 static int32_t battery_voltage_mv = 0;
 static charge_control_status_t charger_status = CHARGE_CONTROL_STATUS_OTHER;
@@ -51,14 +53,45 @@ METRICS_EVENT_DECLARE(battery_event, battery_metrics);
 /* Sample event */
 struct battery_event g_event;
 
+static struct log g_log;
+#if LOG_TO_FLASH
+static struct fcb_log g_log_fcb;
+static struct flash_area g_log_fcb_fa;
+#else
 #define MAX_CBMEM_BUF 10000
 static uint8_t cbmem_buf[MAX_CBMEM_BUF];
 static struct cbmem cbmem;
-static struct log g_log;
+#endif
 
 void metrics_init() {
+#if LOG_TO_FLASH
+    const struct flash_area *fa;
+    int rc;
+
+    rc = flash_area_open(FLASH_AREA_NFFS, &fa);
+    assert(rc == 0);
+
+    g_log_fcb_fa = *fa;
+    g_log_fcb.fl_fcb.f_sectors = &g_log_fcb_fa;
+    g_log_fcb.fl_fcb.f_sector_cnt = 1;
+    g_log_fcb.fl_fcb.f_magic = 0xBABABABA;
+    g_log_fcb.fl_fcb.f_version = g_log_info.li_version;
+
+    g_log_fcb.fl_entries = 0;
+
+    rc = fcb_init(&g_log_fcb.fl_fcb);
+    if (rc) {
+        flash_area_erase(fa, 0, fa->fa_size);
+        rc = fcb_init(&g_log_fcb.fl_fcb);
+        assert(rc == 0);
+    }
+
+    log_register("battery", &g_log, &log_fcb_handler, &g_log_fcb,
+                 LOG_SYSLEVEL);
+#else
     cbmem_init(&cbmem, cbmem_buf, MAX_CBMEM_BUF);
     log_register("battery", &g_log, &log_cbmem_handler, &cbmem, LOG_SYSLEVEL);
+#endif
 
     metrics_event_init(&g_event.hdr, battery_metrics, METRICS_SECT_COUNT(battery_metrics), "batt");
     metrics_event_register(&g_event.hdr);
