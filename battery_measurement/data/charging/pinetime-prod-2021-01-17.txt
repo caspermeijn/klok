@@ -1,0 +1,77 @@
+# SPDX-License-Identifier: CC-BY-SA-4.0
+# Copyright (C) 2021 Casper Meijn <casper@meijn.net>
+
+# This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
+# To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/ or
+#   send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
+
+   [index]            [timestamp] |         [module]          [level] [type]    [img] [message]
+       326              7843696us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":3125,"ts":7,"v":3044}
+       485     1610901528539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":3000,"ts":307,"v":3480}
+       486     1610901828539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2900,"ts":607,"v":3600}
+       487     1610902128539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2800,"ts":907,"v":3620}
+       488     1610902428539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2800,"ts":1207,"v":3634}
+       489     1610902728539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2775,"ts":1507,"v":3656}
+       490     1610903028539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2775,"ts":1807,"v":3684}
+       491     1610903328539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2750,"ts":2107,"v":3704}
+       492     1610903628539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2775,"ts":2407,"v":3720}
+       493     1610903928539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2750,"ts":2707,"v":3740}
+       494     1610904228539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2775,"ts":3007,"v":3740}
+       495     1610904528539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2775,"ts":3307,"v":3740}
+       496     1610904828539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2775,"ts":3607,"v":3748}
+       497     1610905128539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2800,"ts":3907,"v":3754}
+       498     1610905428539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2775,"ts":4207,"v":3762}
+       499     1610905728539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2800,"ts":4507,"v":3762}
+       500     1610906028539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2850,"ts":4807,"v":3790}
+       501     1610906328539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2850,"ts":5107,"v":3790}
+       502     1610906628539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2800,"ts":5407,"v":3804}
+       503     1610906928539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2775,"ts":5707,"v":3804}
+       504     1610907228539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2775,"ts":6007,"v":3852}
+       505     1610907528539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2750,"ts":6307,"v":3846}
+       506     1610907828539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2750,"ts":6607,"v":3852}
+       507     1610908128539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2750,"ts":6907,"v":3880}
+       508     1610908428539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2750,"ts":7207,"v":3908}
+       509     1610908728539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2725,"ts":7507,"v":3908}
+       510     1610909028539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2700,"ts":7807,"v":3922}
+       511     1610909328539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2450,"ts":8107,"v":3952}
+       512     1610909628539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2700,"ts":8407,"v":3972}
+       513     1610909928539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2675,"ts":8707,"v":4000}
+       514     1610910228539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2650,"ts":9007,"v":4022}
+       515     1610910528539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2650,"ts":9307,"v":4036}
+       516     1610910828539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2575,"ts":9607,"v":4070}
+       517     1610911128539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2575,"ts":9907,"v":4092}
+       518     1610911428539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2575,"ts":10207,"v":4070}
+       519     1610911728539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2525,"ts":10507,"v":4084}
+       520     1610912028539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2500,"ts":10807,"v":4078}
+       521     1610912328539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2500,"ts":11107,"v":4084}
+       522     1610912628539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2450,"ts":11407,"v":4084}
+       523     1610912928539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2425,"ts":11707,"v":4084}
+       524     1610913228539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2425,"ts":12007,"v":4078}
+       525     1610913528539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2425,"ts":12307,"v":4070}
+       526     1610913828539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2425,"ts":12607,"v":4084}
+       527     1610914128539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2425,"ts":12907,"v":4092}
+       528     1610914428539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2425,"ts":13207,"v":4084}
+       529     1610914728539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2400,"ts":13507,"v":4078}
+       530     1610915028539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2400,"ts":13807,"v":4070}
+       531     1610915328539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2375,"ts":14107,"v":4092}
+       532     1610915628539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2375,"ts":14407,"v":4084}
+       533     1610915928539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2125,"ts":14707,"v":4084}
+       534     1610916228539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2350,"ts":15007,"v":4078}
+       535     1610916528539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2400,"ts":15307,"v":4078}
+       536     1610916828539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2375,"ts":15607,"v":4092}
+       537     1610917128539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2375,"ts":15907,"v":4084}
+       538     1610917428539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2375,"ts":16207,"v":4078}
+       539     1610917728539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2400,"ts":16507,"v":4078}
+       540     1610918028539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2375,"ts":16807,"v":4084}
+       541     1610918328539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2375,"ts":17107,"v":4092}
+       542     1610918628539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2350,"ts":17407,"v":4078}
+       543     1610918928539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2400,"ts":17707,"v":4098}
+       544     1610919228539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2375,"ts":18007,"v":4084}
+       545     1610919528539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2400,"ts":18307,"v":4106}
+       546     1610919828539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2400,"ts":18607,"v":4092}
+       547     1610920128539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2375,"ts":18907,"v":4078}
+       548     1610920428539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2400,"ts":19207,"v":4092}
+       549     1610920728539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2375,"ts":19507,"v":4084}
+       550     1610921028539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2375,"ts":19807,"v":4078}
+       551     1610921328539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2375,"ts":20107,"v":4092}
+       552     1610921628539028us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2375,"ts":20407,"v":4078}
