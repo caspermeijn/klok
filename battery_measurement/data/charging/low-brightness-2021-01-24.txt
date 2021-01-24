@@ -1,0 +1,74 @@
+# SPDX-License-Identifier: CC-BY-SA-4.0
+# Copyright (C) 2021 Casper Meijn <casper@meijn.net>
+
+# This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License.
+# To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/ or
+#   send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
+
+[index]            [timestamp] |         [module]          [level] [type]    [img] [message]
+      7247              8460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2075,"ts":8,"v":3128}
+      7248            308460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2275,"ts":308,"v":3578}
+      7249            608460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2325,"ts":608,"v":3670}
+      7250            908460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2350,"ts":908,"v":3684}
+      7251           1208460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2375,"ts":1208,"v":3704}
+      7252           1508460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2375,"ts":1508,"v":3726}
+      7253           1808460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2350,"ts":1808,"v":3768}
+      7254           2108460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2375,"ts":2108,"v":3768}
+      7255           2408460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2375,"ts":2408,"v":3782}
+      7256           2708460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2425,"ts":2708,"v":3796}
+      7257           3008460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2400,"ts":3008,"v":3810}
+      7258           3308460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2425,"ts":3308,"v":3824}
+      7259           3608460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2200,"ts":3608,"v":3824}
+      7260           3908460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2225,"ts":3908,"v":3832}
+      7261           4208460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2425,"ts":4208,"v":3852}
+      7262           4508460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2425,"ts":4508,"v":3866}
+      7263           4808460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2425,"ts":4808,"v":3894}
+      7264           5108460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2400,"ts":5108,"v":3888}
+      7265           5408460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2375,"ts":5408,"v":3930}
+      7266           5708460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2375,"ts":5708,"v":3944}
+      7267           6008460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2375,"ts":6008,"v":3966}
+      7268           6308460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2375,"ts":6308,"v":3994}
+      7269           6608460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2350,"ts":6608,"v":4022}
+      7270           6908460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2325,"ts":6908,"v":4050}
+      7271           7208460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2300,"ts":7208,"v":4084}
+      7272           7508460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2250,"ts":7508,"v":4106}
+      7273           7808460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2175,"ts":7808,"v":4106}
+      7274           8108460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2125,"ts":8108,"v":4098}
+      7275           8408460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2050,"ts":8408,"v":4106}
+      7276           8708460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2050,"ts":8708,"v":4106}
+      7277           9008460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2025,"ts":9008,"v":4106}
+      7278           9308460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2000,"ts":9308,"v":4106}
+      7279           9608460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2000,"ts":9608,"v":4112}
+      7280           9908460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":1975,"ts":9908,"v":4106}
+      7281          10208460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":1950,"ts":10208,"v":4112}
+      7282          10508460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2000,"ts":10508,"v":4106}
+      7283          10808460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":1950,"ts":10808,"v":4120}
+      7284          11108460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":1950,"ts":11108,"v":4106}
+      7285          11408460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":1950,"ts":11408,"v":4112}
+      7286          11708460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":1925,"ts":11708,"v":4106}
+      7287          12008460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":1950,"ts":12008,"v":4106}
+      7288          12308460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":1925,"ts":12308,"v":4106}
+      7289          12608460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":1950,"ts":12608,"v":4106}
+      7290          12908460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":1950,"ts":12908,"v":4098}
+      7291          13208460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":1925,"ts":13208,"v":4106}
+      7292          13508460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":1950,"ts":13508,"v":4098}
+      7293          13808460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":1950,"ts":13808,"v":4112}
+      7294          14108460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":1925,"ts":14108,"v":4112}
+      7295          14408460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":1950,"ts":14408,"v":4106}
+      7296          14708460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":1950,"ts":14708,"v":4106}
+      7297          15008460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":1950,"ts":15008,"v":4106}
+      7298          15308460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":1975,"ts":15308,"v":4106}
+      7299          15608460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":1950,"ts":15608,"v":4106}
+      7300          15908460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":1950,"ts":15908,"v":4092}
+      7301          16208460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":1950,"ts":16208,"v":4098}
+      7302          16508460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":1950,"ts":16508,"v":4106}
+      7303          16808460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":1975,"ts":16808,"v":4106}
+      7304          17108460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":1975,"ts":17108,"v":4106}
+      7305          17408460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":1975,"ts":17408,"v":4120}
+      7306          17708460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2000,"ts":17708,"v":4098}
+      7307          18008460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2000,"ts":18008,"v":4112}
+      7308          18308460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2000,"ts":18308,"v":4098}
+      7309          18608460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":1975,"ts":18608,"v":4106}
+      7310          18908460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":1975,"ts":18908,"v":4106}
+      7311          19208460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":2000,"ts":19208,"v":4106}
+      7312          19508460908us |      DEFAULT (0)         INFO (1)   cbor          {"c":2,"ev":"batt","t":1975,"ts":19508,"v":4106}

@@ -49,6 +49,7 @@ struct LogEntry {
 }
 
 struct Log {
+    pub name: String,
     pub entries: Vec<LogEntry>,
 }
 
@@ -70,7 +71,11 @@ impl Log {
 
         entries.sort_by_key(|entry| entry.timestamp);
 
-        Ok(Log { entries }.update_permyriad())
+        Ok(Log {
+            name: filename.file_name().unwrap().to_str().unwrap().to_owned(),
+            entries,
+        }
+        .update_permyriad())
     }
 
     fn remove_non_useful_data(self) -> Self {
@@ -109,6 +114,7 @@ impl Log {
                     }
                 })
                 .collect(),
+            ..self
         }
         .update_permyriad()
     }
@@ -130,6 +136,7 @@ impl Log {
                     ..*entry
                 })
                 .collect(),
+            ..self
         }
     }
 
@@ -196,11 +203,16 @@ fn draw_graph(filename: &str, title: &str, data: Vec<Log>) {
         .unwrap();
 
     for log in &data {
+        let style = if log.name.starts_with("low-brightness") {
+            &MAGENTA
+        } else {
+            &GREEN
+        };
         ctx.draw_series(LineSeries::new(
             log.entries
                 .iter()
                 .map(|entry| (entry.permyriad as i32, entry.voltage as i32)),
-            &GREEN,
+            style,
         ))
         .unwrap();
     }
@@ -212,7 +224,7 @@ fn draw_graph(filename: &str, title: &str, data: Vec<Log>) {
                 reference.voltage as i32,
             )
         }),
-        &BLUE,
+        &BLACK,
     ))
     .unwrap();
 }
