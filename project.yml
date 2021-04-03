@@ -23,6 +23,6 @@ repository.apache-mynewt-mcumgr:
 
 repository.mynewt-rust:
     type: github
-    vers: 6c13af55086229226874a4190963cd062a735dc1-commit
+    vers: 402851781ef67b2c11a414f5c3919176d32105eb-commit
     user: caspermeijn
     repo: mynewt-rust

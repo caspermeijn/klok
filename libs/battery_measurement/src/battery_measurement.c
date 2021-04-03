@@ -118,6 +118,8 @@ pinetime_battery_prop_changed(struct battery_prop_listener *listener,
         battery_voltage_mv = prop->bp_value.bpv_voltage;
     } else if(prop->bp_type == BATTERY_PROP_SOC) {
         // NOP
+    } else if(prop->bp_type == BATTERY_PROP_STATUS) {
+        // NOP
     } else {
         assert(false);
     }
@@ -150,6 +152,14 @@ pinetime_battery_init(void)
 
     if(prop_soc) {
         rc = battery_prop_change_subscribe(&battery_listener, prop_soc);
+        assert(rc == 0);
+    }
+
+    struct battery_property * prop_charger = battery_find_property(
+            battery, BATTERY_PROP_STATUS, BATTERY_PROPERTY_FLAGS_NONE, NULL);
+
+    if(prop_charger) {
+        rc = battery_prop_change_subscribe(&battery_listener, prop_charger);
         assert(rc == 0);
     }
 

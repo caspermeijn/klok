@@ -25,16 +25,18 @@ use display_interface_spi::SPIInterfaceNoCS;
 use embedded_graphics::{pixelcolor::Rgb565, prelude::*};
 use st7789::{Orientation, ST7789};
 
-use alloc::format;
-use alloc::string::String;
+use mynewt::core::hw::battery::BatteryStatus;
 use mynewt::core::hw::bsp::pinetime::Bsp;
-use mynewt::core::hw::hal::gpio::PinState;
 use mynewt::core::kernel::os::callout::Callout;
 use mynewt::core::kernel::os::queue::EventQueue;
 use mynewt::core::kernel::os::task::Task;
 use mynewt::core::kernel::os::time::{Delay, TimeChangeListener, TimeOfDay};
 use mynewt::core::mgmt::imgmgr::ImageVersion;
 use mynewt::nimble::host::advertiser::BleAdvertiser;
+use watchface::battery::ChargerState;
+use watchface::battery::StateOfCharge;
+use watchface::time::Time;
+use watchface::SimpleWatchfaceStyle;
 use watchface::Watchface;
 
 extern "C" {
@@ -45,36 +47,39 @@ extern "C" {
     fn battery_measurement_init();
 }
 
-struct TimeOfDayProvider {}
+fn get_time() -> Time {
+    let time = TimeOfDay::getTimeOfDay().unwrap();
+    Time::from_unix_epoch(time.unix_epoch() as u64, time.timezone_offset())
+}
 
-impl watchface::TimeProvider for TimeOfDayProvider {
-    fn get_time(&self) -> String {
-        let time = TimeOfDay::getTimeOfDay().unwrap();
-
-        format!("{:02}:{:02}", time.hours_local(), time.minutes_local(),)
+fn try_get_state_of_charge() -> Result<StateOfCharge, ()> {
+    let mut battery = mynewt::core::hw::battery::Battery::get_by_number(0)?;
+    let property_state_of_charge =
+        battery.find_property(mynewt::core::hw::battery::PropertyType::StateOfCharge)?;
+    if let Some(mynewt::core::hw::battery::PropertyValue::StateOfCharge(state_of_charge)) =
+        property_state_of_charge.get_value()
+    {
+        Ok(StateOfCharge::from_percentage(state_of_charge))
+    } else {
+        Err(())
     }
 }
 
-struct BatteryProvider {}
-
-impl BatteryProvider {
-    fn try_get_state_of_charge(&self) -> Result<f32, ()> {
-        let mut battery = mynewt::core::hw::battery::Battery::get_by_number(0)?;
-        let property_state_of_charge =
-            battery.find_property(mynewt::core::hw::battery::PropertyType::StateOfCharge)?;
-        if let Some(mynewt::core::hw::battery::PropertyValue::StateOfCharge(state_of_charge)) =
-            property_state_of_charge.get_value()
-        {
-            Ok(state_of_charge as f32 / 100.0)
-        } else {
-            Err(())
-        }
-    }
-}
-
-impl watchface::BatteryProvider for BatteryProvider {
-    fn try_get_state_of_charge(&self) -> Option<f32> {
-        self.try_get_state_of_charge().ok()
+fn try_get_charger_status() -> Result<ChargerState, ()> {
+    let mut battery = mynewt::core::hw::battery::Battery::get_by_number(0)?;
+    let property_status = battery.find_property(mynewt::core::hw::battery::PropertyType::Status)?;
+    if let Some(mynewt::core::hw::battery::PropertyValue::Status(status)) =
+        property_status.get_value()
+    {
+        Ok(match status {
+            BatteryStatus::Unknown => ChargerState::Discharging,
+            BatteryStatus::Charging => ChargerState::Charging,
+            BatteryStatus::Discharging => ChargerState::Discharging,
+            BatteryStatus::NotCharging => ChargerState::Discharging,
+            BatteryStatus::Full => ChargerState::Full,
+        })
+    } else {
+        Err(())
     }
 }
 
@@ -106,14 +111,21 @@ fn draw_task() {
     // draw two circles on black background
     display.clear(Rgb565::BLACK).unwrap();
 
-    let now_provider = TimeOfDayProvider {};
-    let battery_provider = BatteryProvider {};
-
-    let watchface = Watchface::new(now_provider, battery_provider);
-
     unsafe {
         DRAW_CALLOUT.init(
             move || {
+                let watchface_style = SimpleWatchfaceStyle {};
+
+                let mut watchface_data = Watchface::build().with_time(get_time());
+                if let Ok(state_of_charge) = try_get_state_of_charge() {
+                    watchface_data = watchface_data.with_battery(state_of_charge);
+                }
+                if let Ok(charger_status) = try_get_charger_status() {
+                    watchface_data = watchface_data.with_charger(charger_status);
+                }
+
+                let watchface = watchface_data.into_styled(watchface_style);
+
                 watchface.draw(&mut display).unwrap();
 
                 let time = TimeOfDay::getTimeOfDay().unwrap();
@@ -156,9 +168,6 @@ pub extern "C" fn main() {
 
     mynewt::core::sys::reboot::reboot_start();
 
-    let mut backlight_high = bsp.backlight_high;
-    backlight_high.write(PinState::High);
-
     unsafe {
         TASK.init("draw", draw_task, 200).unwrap();
     }
@@ -169,13 +178,23 @@ pub extern "C" fn main() {
         })
     }
 
+    let mut backlight = bsp.backlight;
+    backlight.set_percentage(100);
+
     if false {
         unsafe {
+            let mut current_state = false;
             BACKLIGHT_CALLOUT.init_default_queue(move || {
-                backlight_high.toggle();
-                BACKLIGHT_CALLOUT.reset(1000);
+                if current_state == false {
+                    backlight.set_percentage(30);
+                    BACKLIGHT_CALLOUT.reset(200);
+                } else {
+                    backlight.set_percentage(0);
+                    BACKLIGHT_CALLOUT.reset(3000);
+                }
+                current_state = !current_state;
             });
-            BACKLIGHT_CALLOUT.reset(1000);
+            BACKLIGHT_CALLOUT.reset(5000);
         }
     }
 

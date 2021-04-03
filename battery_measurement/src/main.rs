@@ -270,16 +270,20 @@ fn get_reference_list(log: &Log) -> Vec<ReferenceStateOfCharge> {
             if temperature <= 2500 {
                 vec![
                     ReferenceStateOfCharge {
-                        voltage: 4050,
+                        voltage: 4090,
                         state_of_charge: 100,
                     },
                     ReferenceStateOfCharge {
-                        voltage: 3700,
-                        state_of_charge: 60,
+                        voltage: 3730,
+                        state_of_charge: 55,
+                    },
+                    ReferenceStateOfCharge {
+                        voltage: 3650,
+                        state_of_charge: 25,
                     },
                     ReferenceStateOfCharge {
                         voltage: 3550,
-                        state_of_charge: 10,
+                        state_of_charge: 5,
                     },
                     ReferenceStateOfCharge {
                         voltage: 3300,
@@ -289,16 +293,24 @@ fn get_reference_list(log: &Log) -> Vec<ReferenceStateOfCharge> {
             } else if temperature >= 3000 {
                 vec![
                     ReferenceStateOfCharge {
-                        voltage: 4050,
+                        voltage: 4090,
                         state_of_charge: 100,
                     },
                     ReferenceStateOfCharge {
-                        voltage: 3700,
-                        state_of_charge: 60,
+                        voltage: 3850,
+                        state_of_charge: 75,
+                    },
+                    ReferenceStateOfCharge {
+                        voltage: 3720,
+                        state_of_charge: 55,
+                    },
+                    ReferenceStateOfCharge {
+                        voltage: 3630,
+                        state_of_charge: 25,
                     },
                     ReferenceStateOfCharge {
                         voltage: 3550,
-                        state_of_charge: 10,
+                        state_of_charge: 6,
                     },
                     ReferenceStateOfCharge {
                         voltage: 3300,
@@ -312,16 +324,16 @@ fn get_reference_list(log: &Log) -> Vec<ReferenceStateOfCharge> {
         ChargerState::Charging => {
             vec![
                 ReferenceStateOfCharge {
-                    voltage: 4000,
+                    voltage: 4090,
                     state_of_charge: 100,
                 },
                 ReferenceStateOfCharge {
-                    voltage: 3900,
+                    voltage: 3920,
                     state_of_charge: 85,
                 },
                 ReferenceStateOfCharge {
-                    voltage: 3650,
-                    state_of_charge: 10,
+                    voltage: 3670,
+                    state_of_charge: 5,
                 },
                 ReferenceStateOfCharge {
                     voltage: 3400,
