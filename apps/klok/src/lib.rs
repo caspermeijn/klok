@@ -168,9 +168,6 @@ pub extern "C" fn main() {
 
     mynewt::core::sys::reboot::reboot_start();
 
-    let mut backlight_high = bsp.backlight_high;
-    backlight_high.write(PinState::High);
-
     unsafe {
         TASK.init("draw", draw_task, 200).unwrap();
     }
@@ -181,13 +178,23 @@ pub extern "C" fn main() {
         })
     }
 
+    let mut backlight = bsp.backlight;
+    backlight.set_percentage(100);
+
     if false {
         unsafe {
+            let mut current_state = false;
             BACKLIGHT_CALLOUT.init_default_queue(move || {
-                backlight_high.toggle();
-                BACKLIGHT_CALLOUT.reset(1000);
+                if current_state == false {
+                    backlight.set_percentage(30);
+                    BACKLIGHT_CALLOUT.reset(200);
+                } else {
+                    backlight.set_percentage(0);
+                    BACKLIGHT_CALLOUT.reset(3000);
+                }
+                current_state = !current_state;
             });
-            BACKLIGHT_CALLOUT.reset(1000);
+            BACKLIGHT_CALLOUT.reset(5000);
         }
     }
 
