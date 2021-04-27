@@ -6,20 +6,13 @@ project.name: "klok"
 
 project.repositories:
     - apache-mynewt-core
-    - apache-mynewt-mcumgr
     - mynewt-rust
 
 repository.apache-mynewt-core:
     type: github
-    vers: 20c0af23fd8d94a8499c7443ff8551225ffa726e-commit
-    user: caspermeijn
+    vers: 1.9.0
+    user: apache
     repo: mynewt-core
-
-repository.apache-mynewt-mcumgr:
-    type: github
-    vers: 68c6620085153db9a59a325896168d73f7ac0338-commit
-    user: caspermeijn
-    repo: mynewt-mcumgr
 
 repository.mynewt-rust:
     type: github
