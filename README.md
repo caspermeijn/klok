@@ -40,3 +40,16 @@ See [installation](docs/installation.md)
 Upgrade
 -------
 See [upgrade](docs/upgrade.md)
+
+Contributions
+-------------
+Contributions to the project are welcome. Open an [issue](https://gitlab.com/caspermeijn/klok/-/issues) for 
+problems or suggestions. If you created some code or documentation, open a 
+[merge request](https://gitlab.com/caspermeijn/klok/-/merge_requests).  
+
+Please make sure that the commit message conforms to [Conventional Commits](https://www.conventionalcommits.org/). This
+basically means that the commit title starts with `fix:` for bugfixes and starts with `feat:` for new functionality. 
+Some other useful prefixes are `build:`, `ci:`, `docs:`, `style:`, `test:`.
+
+Please make sure that the continuous integration succeeds. If it fails, please adjust the code and amend the commit. 
+If you don't know what the problem is, ask a question in a comment. 
