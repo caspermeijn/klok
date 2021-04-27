@@ -37,6 +37,6 @@ Installation
 ------------
 See [installation](docs/installation.md)
 
-Updrage
+Upgrade
 -------
-See [updrage](docs/upgrade.md)
+See [upgrade](docs/upgrade.md)
