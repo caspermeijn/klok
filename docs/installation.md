@@ -14,7 +14,7 @@ There are multiple ways of installing this firmware onto the PineTime hardware:
 ### Upgrade from other firmware
 This method can be used if you have already installed a compatible firmware. This method is tested with the following 
 firmwares:
-- [InfiniTime](https://github.com/JF002/Pinetime/) 0.7.1
+- [InfiniTime](https://github.com/JF002/InfiniTime) 1.0.0
 
 Instructions:
 - Install [nRF Connect](https://play.google.com/store/apps/details?id=no.nordicsemi.android.mcp) on a Android smartphone.
@@ -27,7 +27,7 @@ Instructions:
 - Wait for the upgrade to complete
 - Connect to the device again
 - Click "SMP Service"
-- Click the single arrow up icon
+- Click the "single arrow up" icon
 - Select command "Image / Confirm"
 - Click "Send"
 
@@ -38,7 +38,7 @@ enabled. Someone else in the community created a tool for easily flashing firmwa
 - Install [pinetime-updater](https://github.com/lupyuen/pinetime-updater) by following the [instructions](https://github.com/lupyuen/pinetime-updater#how-to-run).
 - Remove the Flash ROM protection (if you have not done this yet) by following the [instructions](https://github.com/lupyuen/pinetime-updater#remove-flash-rom-protection).
 - Flash the "Latest Bootloader" via the menu
-- Flash Klok by choosing "Download from URL" in the menu. Enter this [URL](https://gitlab.com/caspermeijn/klok/-/jobs/artifacts/master/raw/bin/targets/klok-pinetime/app/apps/klok/klok.img?job=build)
+- Flash Klok by choosing "Download from URL" in the menu. Enter this [URL](https://gitlab.com/caspermeijn/klok/-/jobs/artifacts/master/raw/klok.img?job=package)
     (try right-click and copy link location). Use the default flash address.
 
 ### Build and Load
