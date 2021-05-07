@@ -103,8 +103,6 @@ deploy:
 rustfmt:
   stage: build
   image: registry.gitlab.com/caspermeijn/docker-images/pinetime-build:latest
-  before_script:
-    - rustup component add rustfmt
   script:
     - newt upgrade mynewt-rust
     - cd apps/klok && cargo fmt --all -- --check
