@@ -266,60 +266,32 @@ struct ReferenceStateOfCharge {
 fn get_reference_list(log: &Log) -> Vec<ReferenceStateOfCharge> {
     match log.get_charger() {
         ChargerState::NoSource => {
-            let temperature = log.average_temperature();
-            if temperature <= 2500 {
-                vec![
-                    ReferenceStateOfCharge {
-                        voltage: 4090,
-                        state_of_charge: 100,
-                    },
-                    ReferenceStateOfCharge {
-                        voltage: 3730,
-                        state_of_charge: 55,
-                    },
-                    ReferenceStateOfCharge {
-                        voltage: 3650,
-                        state_of_charge: 25,
-                    },
-                    ReferenceStateOfCharge {
-                        voltage: 3550,
-                        state_of_charge: 5,
-                    },
-                    ReferenceStateOfCharge {
-                        voltage: 3300,
-                        state_of_charge: 0,
-                    },
-                ]
-            } else if temperature >= 3000 {
-                vec![
-                    ReferenceStateOfCharge {
-                        voltage: 4090,
-                        state_of_charge: 100,
-                    },
-                    ReferenceStateOfCharge {
-                        voltage: 3850,
-                        state_of_charge: 75,
-                    },
-                    ReferenceStateOfCharge {
-                        voltage: 3720,
-                        state_of_charge: 55,
-                    },
-                    ReferenceStateOfCharge {
-                        voltage: 3630,
-                        state_of_charge: 25,
-                    },
-                    ReferenceStateOfCharge {
-                        voltage: 3550,
-                        state_of_charge: 6,
-                    },
-                    ReferenceStateOfCharge {
-                        voltage: 3300,
-                        state_of_charge: 0,
-                    },
-                ]
-            } else {
-                unimplemented!()
-            }
+            vec![
+                ReferenceStateOfCharge {
+                    voltage: 4090,
+                    state_of_charge: 100,
+                },
+                ReferenceStateOfCharge {
+                    voltage: 3850,
+                    state_of_charge: 75,
+                },
+                ReferenceStateOfCharge {
+                    voltage: 3730,
+                    state_of_charge: 55,
+                },
+                ReferenceStateOfCharge {
+                    voltage: 3650,
+                    state_of_charge: 25,
+                },
+                ReferenceStateOfCharge {
+                    voltage: 3550,
+                    state_of_charge: 5,
+                },
+                ReferenceStateOfCharge {
+                    voltage: 3300,
+                    state_of_charge: 0,
+                },
+            ]
         }
         ChargerState::Charging => {
             vec![
