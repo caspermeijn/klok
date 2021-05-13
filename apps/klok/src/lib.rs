@@ -15,7 +15,6 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#![feature(const_fn)]
 #![no_std]
 
 extern crate alloc;
