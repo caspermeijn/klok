@@ -15,17 +15,17 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#![feature(const_fn)]
 #![no_std]
 
 extern crate alloc;
 extern crate panic_semihosting;
 
+mod battery;
+
 use display_interface_spi::SPIInterfaceNoCS;
 use embedded_graphics::{pixelcolor::Rgb565, prelude::*};
 use st7789::{Orientation, ST7789};
 
-use mynewt::core::hw::battery::BatteryStatus;
 use mynewt::core::hw::bsp::pinetime::Bsp;
 use mynewt::core::kernel::os::callout::Callout;
 use mynewt::core::kernel::os::queue::EventQueue;
@@ -33,8 +33,6 @@ use mynewt::core::kernel::os::task::Task;
 use mynewt::core::kernel::os::time::{Delay, TimeChangeListener, TimeOfDay};
 use mynewt::core::mgmt::imgmgr::ImageVersion;
 use mynewt::nimble::host::advertiser::BleAdvertiser;
-use watchface::battery::ChargerState;
-use watchface::battery::StateOfCharge;
 use watchface::time::Time;
 use watchface::SimpleWatchfaceStyle;
 use watchface::Watchface;
@@ -50,37 +48,6 @@ extern "C" {
 fn get_time() -> Time {
     let time = TimeOfDay::getTimeOfDay().unwrap();
     Time::from_unix_epoch(time.unix_epoch() as u64, time.timezone_offset())
-}
-
-fn try_get_state_of_charge() -> Result<StateOfCharge, ()> {
-    let mut battery = mynewt::core::hw::battery::Battery::get_by_number(0)?;
-    let property_state_of_charge =
-        battery.find_property(mynewt::core::hw::battery::PropertyType::StateOfCharge)?;
-    if let Some(mynewt::core::hw::battery::PropertyValue::StateOfCharge(state_of_charge)) =
-        property_state_of_charge.get_value()
-    {
-        Ok(StateOfCharge::from_percentage(state_of_charge))
-    } else {
-        Err(())
-    }
-}
-
-fn try_get_charger_status() -> Result<ChargerState, ()> {
-    let mut battery = mynewt::core::hw::battery::Battery::get_by_number(0)?;
-    let property_status = battery.find_property(mynewt::core::hw::battery::PropertyType::Status)?;
-    if let Some(mynewt::core::hw::battery::PropertyValue::Status(status)) =
-        property_status.get_value()
-    {
-        Ok(match status {
-            BatteryStatus::Unknown => ChargerState::Discharging,
-            BatteryStatus::Charging => ChargerState::Charging,
-            BatteryStatus::Discharging => ChargerState::Discharging,
-            BatteryStatus::NotCharging => ChargerState::Discharging,
-            BatteryStatus::Full => ChargerState::Full,
-        })
-    } else {
-        Err(())
-    }
 }
 
 static mut DRAW_EVENTQ: EventQueue = EventQueue::new();
@@ -117,10 +84,10 @@ fn draw_task() {
                 let watchface_style = SimpleWatchfaceStyle {};
 
                 let mut watchface_data = Watchface::build().with_time(get_time());
-                if let Ok(state_of_charge) = try_get_state_of_charge() {
+                if let Ok(state_of_charge) = battery::try_get_state_of_charge() {
                     watchface_data = watchface_data.with_battery(state_of_charge);
                 }
-                if let Ok(charger_status) = try_get_charger_status() {
+                if let Ok(charger_status) = battery::try_get_charger_status() {
                     watchface_data = watchface_data.with_charger(charger_status);
                 }
 
